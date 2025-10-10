@@ -62,7 +62,7 @@ export default function DashboardPage() {
                   Welcome back, {user.firstName ? `${user.firstName} ${user.lastName}` : 'User'}!
                 </h2>
                 <p className="text-gray-600">
-                  You're successfully logged in to your account.
+                  You&apos;re successfully logged in to your account.
                 </p>
               </div>
 
