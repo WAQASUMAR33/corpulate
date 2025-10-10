@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AdOne {
+  ad_id          Int       @id @default(autoincrement())
+  ad_title       String
+  ad_price       Float
+  ad_description String
+  ad_information String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+  Request        Request[] @relation("RequestAdOnes")
+}
+
+model Coupon {
+  id            Int       @id @default(autoincrement())
+  code          String    @unique
+  description   String?
+  discountType  String
+  discountValue Float
+  usageLimit    Int?
+  usedCount     Int       @default(0)
+  validFrom     DateTime?
+  validUntil    DateTime?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+}
+
+model EmailVerification {
+  id        Int      @id @default(autoincrement())
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    Int
+  token     String
+  User      User     @relation(fields: [userId], references: [id], map: "EmailVerification_user_fkey")
+
+  @@index([userId])
+}
+
+model Package {
+  package_id          Int       @id @default(autoincrement())
+  package_title       String
+  package_description String
+  package_price       Float
+  Request             Request[]
+}
+
+model User {
+  id                     Int                 @id @default(autoincrement())
+  email                  String              @unique
+  password               String
+  firstName              String?
+  lastName               String?
+  phoneNumber            String?
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  emailVerificationToken String?
+  EmailVerification      EmailVerification[]
+  Request                Request[]
+}
+
+model Request {
+  id                    Int       @id @default(autoincrement())
+  userId                Int
+  name                  String?
+  phone                 String?
+  cnic_url              String?
+  company_name          String?
+  company_type          String?
+  company_url           String?
+  country               String?
+  date_of_birth         DateTime?
+  other1_url            String?
+  other2_url            String?
+  other3_url            String?
+  passport_url          String?
+  phone_number          String?
+  selected_company_type String?
+  share_holders         String?
+  state                 String?
+  packageId             Int?
+  status                String    @default("pending")
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  User                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Package               Package?  @relation(fields: [packageId], references: [package_id])
+  AdOne                 AdOne[]   @relation("RequestAdOnes")
+
+  @@index([userId])
+  @@index([packageId])
+}
