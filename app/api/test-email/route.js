@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { config } from '../../../lib/config.js';
 
 export async function POST(request) {
   try {
@@ -7,28 +8,29 @@ export async function POST(request) {
 
     // Create transporter using your SMTP settings
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === 'true',
+      host: config.smtp.host,
+      port: config.smtp.port,
+      secure: config.smtp.secure,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: config.smtp.user,
+        pass: config.smtp.pass,
       },
     });
 
     // Test email options
     const mailOptions = {
-      from: process.env.SMTP_USER,
+      from: `${config.app.name} <${config.smtp.user}>`,
       to: to || 'theitxprts786@gmail.com',
-      subject: 'Test Email from Next.js App',
+      subject: `Test Email from ${config.app.name}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333;">✅ Email Test Successful!</h2>
           <p>This is a test email sent from your Next.js application using Nodemailer.</p>
           <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
             <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
-            <p><strong>From:</strong> ${process.env.SMTP_USER}</p>
+            <p><strong>From:</strong> ${config.smtp.user}</p>
             <p><strong>To:</strong> ${to || 'theitxprts786@gmail.com'}</p>
+            <p><strong>Base URL:</strong> ${config.baseUrl}</p>
           </div>
           <p style="color: #666; font-size: 14px;">If you received this email, your email configuration is working correctly! 🎉</p>
         </div>

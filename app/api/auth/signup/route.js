@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import prisma from '../../../../lib/prisma.js';
+import { config, getFullUrl } from '../../../../lib/config.js';
 
 export async function POST(request) {
   try {
@@ -87,19 +88,19 @@ export async function POST(request) {
     // Send welcome email
     try {
       const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT),
-        secure: process.env.SMTP_SECURE === 'true',
+        host: config.smtp.host,
+        port: config.smtp.port,
+        secure: config.smtp.secure,
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
+          user: config.smtp.user,
+          pass: config.smtp.pass,
         },
       });
 
       const mailOptions = {
-        from: process.env.SMTP_USER,
+        from: `${config.app.name} <${config.smtp.user}>`,
         to: user.email,
-        subject: 'Welcome to Corpulate! 🎉',
+        subject: `Welcome to ${config.app.name}! 🎉`,
         html: `
           <!DOCTYPE html>
           <html>
@@ -118,7 +119,7 @@ export async function POST(request) {
           <body>
             <div class="container">
               <div class="header">
-                <h1>🎉 Welcome to Corpulate!</h1>
+                <h1>🎉 Welcome to ${config.app.name}!</h1>
               </div>
               <div class="content">
                 <h2>Hi ${user.firstName} ${user.lastName},</h2>
@@ -135,7 +136,7 @@ export async function POST(request) {
                 <p>You can now log in to your account and start managing your business operations.</p>
                 
                 <center>
-                  <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/login" class="button">
+                  <a href="${getFullUrl('/login')}" class="button">
                     Log In to Your Account →
                   </a>
                 </center>
@@ -155,14 +156,15 @@ export async function POST(request) {
                 <p>Best regards,<br><strong>The Corpulate Team</strong></p>
               </div>
               <div class="footer">
-                <p>© ${new Date().getFullYear()} Corpulate. All rights reserved.</p>
+                <p>© ${new Date().getFullYear()} ${config.app.name}. All rights reserved.</p>
                 <p>This email was sent to ${user.email}</p>
+                <p>Need help? Contact us at ${config.app.supportEmail}</p>
               </div>
             </div>
           </body>
           </html>
         `,
-        text: `Welcome to Corpulate!\n\nHi ${user.firstName} ${user.lastName},\n\nThank you for signing up! Your account has been successfully created.\n\nAccount Details:\n- Name: ${user.firstName} ${user.lastName}\n- Email: ${user.email}\n${user.phoneNumber ? `- Phone: ${user.phoneNumber}\n` : ''}- Account Created: ${new Date(user.createdAt).toLocaleDateString()}\n\nYou can now access your dashboard and start managing your business operations.\n\nBest regards,\nThe Corpulate Team`,
+        text: `Welcome to ${config.app.name}!\n\nHi ${user.firstName} ${user.lastName},\n\nThank you for signing up! Your account has been successfully created.\n\nAccount Details:\n- Name: ${user.firstName} ${user.lastName}\n- Email: ${user.email}\n${user.phoneNumber ? `- Phone: ${user.phoneNumber}\n` : ''}- Account Created: ${new Date(user.createdAt).toLocaleDateString()}\n\nYou can now log in to your account at: ${getFullUrl('/login')}\n\nBest regards,\nThe ${config.app.name} Team\n\nNeed help? Contact us at ${config.app.supportEmail}`,
       };
 
       await transporter.sendMail(mailOptions);
