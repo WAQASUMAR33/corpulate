@@ -135,13 +135,17 @@ export default function DashboardPage() {
     router.push('/login');
   };
 
+  const handleNavigation = (path) => {
+    router.push(path);
+  };
+
 
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, active: true },
-    { text: 'New Company', icon: <NewCompanyIcon />, active: false },
-    { text: 'My Requests', icon: <MyRequestsIcon />, active: false },
-    { text: 'Tax Managements', icon: <TaxManagementIcon />, active: false },
-    { text: 'My Addresses', icon: <MyAddressesIcon />, active: false },
+    { text: 'Dashboard', icon: <DashboardIcon />, active: true, path: '/dashboard' },
+    { text: 'New Company', icon: <NewCompanyIcon />, active: false, path: '/new-request' },
+    { text: 'My Requests', icon: <MyRequestsIcon />, active: false, path: '/my-requests' },
+    { text: 'Tax Managements', icon: <TaxManagementIcon />, active: false, path: '/tax-management' },
+    { text: 'My Addresses', icon: <MyAddressesIcon />, active: false, path: '/my-addresses' },
   ];
 
   if (!user) {
@@ -211,6 +215,7 @@ export default function DashboardPage() {
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
+              onClick={() => handleNavigation(item.path)}
               sx={{
                 borderRadius: 2,
                 backgroundColor: item.active ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
