@@ -29,8 +29,10 @@ import {
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
-  Person as PersonIcon,
-  Settings as SettingsIcon,
+  AddBusiness as NewCompanyIcon,
+  Assignment as MyRequestsIcon,
+  AccountBalance as TaxManagementIcon,
+  LocationOn as MyAddressesIcon,
   Logout as LogoutIcon,
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
@@ -133,10 +135,10 @@ export default function DashboardPage() {
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, active: true },
-    { text: 'Profile', icon: <PersonIcon /> },
-    { text: 'Analytics', icon: <AssessmentIcon /> },
-    { text: 'Security', icon: <SecurityIcon /> },
-    { text: 'Settings', icon: <SettingsIcon /> },
+    { text: 'New Company', icon: <NewCompanyIcon /> },
+    { text: 'My Requests', icon: <MyRequestsIcon /> },
+    { text: 'Tax Managements', icon: <TaxManagementIcon /> },
+    { text: 'My Addresses', icon: <MyAddressesIcon /> },
   ];
 
   if (!user) {
@@ -230,6 +232,35 @@ export default function DashboardPage() {
             </ListItemButton>
           </ListItem>
         ))}
+        
+        {/* Logout Button */}
+        <ListItem disablePadding sx={{ mb: 0.5, mt: 2 }}>
+          <ListItemButton
+            onClick={handleLogout}
+            sx={{
+              borderRadius: 2,
+              backgroundColor: 'transparent',
+              border: '1px solid transparent',
+              '&:hover': {
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+              },
+            }}
+          >
+            <ListItemIcon sx={{ color: '#ef4444' }}>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Logout"
+              sx={{
+                '& .MuiListItemText-primary': {
+                  fontWeight: 400,
+                  color: '#ef4444',
+                },
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
