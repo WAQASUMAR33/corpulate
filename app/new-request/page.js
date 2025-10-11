@@ -734,7 +734,6 @@ export default function NewRequestPage() {
                           onChange={(e) => handleInputChange('name', e.target.value)}
                           variant="outlined"
                           sx={{ 
-                            mb: 2,
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 3,
                               backgroundColor: 'rgba(99, 102, 241, 0.05)',
@@ -764,7 +763,6 @@ export default function NewRequestPage() {
                           onChange={(e) => handleInputChange('phone', e.target.value)}
                           variant="outlined"
                           sx={{ 
-                            mb: 2,
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 3,
                               backgroundColor: 'rgba(99, 102, 241, 0.05)',
@@ -786,7 +784,7 @@ export default function NewRequestPage() {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={6}>
                         <TextField
                           fullWidth
                           label="Date of Birth"
@@ -796,7 +794,6 @@ export default function NewRequestPage() {
                           variant="outlined"
                           InputLabelProps={{ shrink: true }}
                           sx={{ 
-                            mb: 2,
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 3,
                               backgroundColor: 'rgba(99, 102, 241, 0.05)',
@@ -817,6 +814,9 @@ export default function NewRequestPage() {
                             },
                           }}
                         />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        {/* Empty grid for spacing */}
                       </Grid>
                     </Grid>
                   </Box>
