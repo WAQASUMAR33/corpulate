@@ -657,13 +657,32 @@ export default function NewRequestPage() {
                           >
                             <CardContent sx={{ textAlign: 'center', p: 3 }}>
                               <Box sx={{ mb: 2 }}>
-                                <LocationCityIcon 
-                                  sx={{ 
-                                    fontSize: 48, 
-                                    color: formData.country === country ? '#6366f1' : '#cbd5e1',
-                                    transition: 'color 0.3s ease'
-                                  }} 
-                                />
+                                <Box
+                                  sx={{
+                                    width: 64,
+                                    height: 48,
+                                    borderRadius: 1,
+                                    mx: 'auto',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '24px',
+                                    fontWeight: 'bold',
+                                    border: '2px solid rgba(99, 102, 241, 0.2)',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    backdropFilter: 'blur(10px)',
+                                  }}
+                                >
+                                  {country === 'United Kingdom' && (
+                                    <Box sx={{ fontSize: '32px' }}>🇬🇧</Box>
+                                  )}
+                                  {country === 'United States' && (
+                                    <Box sx={{ fontSize: '32px' }}>🇺🇸</Box>
+                                  )}
+                                  {country === 'U.A.E' && (
+                                    <Box sx={{ fontSize: '32px' }}>🇦🇪</Box>
+                                  )}
+                                </Box>
                               </Box>
                               <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                                 {country}
