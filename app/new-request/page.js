@@ -25,7 +25,6 @@ import {
   createTheme,
   CssBaseline,
   useMediaQuery,
-  Paper,
   TextField,
   Button,
   FormControl,
@@ -39,7 +38,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  StepContent,
   Alert,
   CircularProgress,
 } from '@mui/material';
@@ -102,14 +100,6 @@ const darkTheme = createTheme({
         },
       },
     },
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
-          borderRight: '1px solid #334155',
-        },
-      },
-    },
   },
 });
 
@@ -120,29 +110,17 @@ export default function NewRequestPage() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
-    // Step 1: Personal Information
     name: '',
     phone: '',
     dateOfBirth: '',
-    
-    // Step 2: Company Type
     companyType: '',
-    
-    // Step 3: Package Selection
     selectedPackage: '',
-    
-    // Step 4: State Selection
-    selectedState: '',
-    
-    // Step 5: Shareholder Information
-    shareholderNumber: '',
+    state: '',
+    shareholders: '',
     companyName: '',
-    companyTypeDropdown: '',
-    documents: {
-      companyDocuments: null,
-      cnicImage: null,
-      passportImage: null,
-    }
+    companyDocs: null,
+    cnicImage: null,
+    passportImage: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -179,44 +157,9 @@ export default function NewRequestPage() {
     router.push('/login');
   };
 
-  // Step definitions
-  const steps = [
-    { label: 'Personal Information', icon: <PersonIcon /> },
-    { label: 'Company Type', icon: <BusinessCenterIcon /> },
-    { label: 'Package Selection', icon: <AttachMoneyIcon /> },
-    { label: 'State Selection', icon: <LocationCityIcon /> },
-    { label: 'Shareholder Details', icon: <GroupIcon /> },
-  ];
-
-  // Company types
-  const companyTypes = [
-    'Limited Liability Company Limited',
-    'General Corporation (Corp)',
-    'Not Sure which Company to Choose'
-  ];
-
-  // States
-  const states = [
-    'Texas',
-    'Florida',
-    'Missouri',
-    'Ohio',
-    'Wyoming'
-  ];
-
-  // Packages (mock data)
-  const packages = [
-    { id: 'basic', name: 'Basic Package', price: '$99', features: ['Basic features', 'Email support'] },
-    { id: 'premium', name: 'Premium Package', price: '$199', features: ['All basic features', 'Priority support', 'Advanced tools'] },
-    { id: 'enterprise', name: 'Enterprise Package', price: '$399', features: ['All premium features', '24/7 support', 'Custom solutions'] },
-  ];
-
-  // Company type dropdown options
-  const companyTypeOptions = [
-    'Limited Liability Company',
-    'L.L.C',
-    'LLC'
-  ];
+  const handleNavigation = (path) => {
+    router.push(path);
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -234,49 +177,45 @@ export default function NewRequestPage() {
       dateOfBirth: '',
       companyType: '',
       selectedPackage: '',
-      selectedState: '',
-      shareholderNumber: '',
+      state: '',
+      shareholders: '',
       companyName: '',
-      companyTypeDropdown: '',
-      documents: {
-        companyDocuments: null,
-        cnicImage: null,
-        passportImage: null,
-      }
+      companyDocs: null,
+      cnicImage: null,
+      passportImage: null,
     });
   };
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
-  const handleDocumentUpload = (documentType, file) => {
+  const handleDocumentUpload = (field, files) => {
     setFormData(prev => ({
       ...prev,
-      documents: {
-        ...prev.documents,
-        [documentType]: file
-      }
+      [field]: files,
     }));
   };
 
   const handleSubmit = async () => {
     setLoading(true);
     setError('');
-    
+
     try {
-      // Here you would typically send the form data to your API
-      console.log('Form data:', formData);
-      
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Success - could redirect or show success message
-      alert('Request submitted successfully!');
+      // Handle form submission
+      console.log('Form submitted:', formData);
+      
+      // Reset form
       handleReset();
+      
+      // Show success message or redirect
+      alert('Request submitted successfully!');
     } catch (err) {
       setError('Failed to submit request. Please try again.');
     } finally {
@@ -284,19 +223,78 @@ export default function NewRequestPage() {
     }
   };
 
+  const steps = [
+    { label: 'Personal Information', icon: <PersonIcon /> },
+    { label: 'Company Type', icon: <BusinessCenterIcon /> },
+    { label: 'Package Selection', icon: <AttachMoneyIcon /> },
+    { label: 'State Selection', icon: <LocationCityIcon /> },
+    { label: 'Shareholder Details', icon: <GroupIcon /> },
+  ];
+
+  const companyTypes = [
+    'Limited Liability Company',
+    'General Corporation (Corp)',
+    'Not Sure which Company to Choose',
+  ];
+
+  const states = ['Texas', 'Florida', 'Missouri', 'Ohio', 'Wyoming'];
+
+  const packages = [
+    {
+      id: 1,
+      name: 'Basic',
+      price: 299,
+      description: 'Essential features for small businesses',
+      features: ['Basic registration', 'Email support', 'Standard processing'],
+    },
+    {
+      id: 2,
+      name: 'Premium',
+      price: 599,
+      description: 'Advanced features for growing businesses',
+      features: ['Premium registration', 'Priority support', 'Fast processing', 'Document review'],
+    },
+    {
+      id: 3,
+      name: 'Enterprise',
+      price: 999,
+      description: 'Complete solution for large enterprises',
+      features: ['Enterprise registration', '24/7 support', 'Express processing', 'Full document review', 'Legal consultation'],
+    },
+  ];
+
+  const companyTypeOptions = [
+    {
+      value: 'LLC',
+      label: 'Limited Liability Company',
+      description: 'Most popular choice for small to medium businesses',
+    },
+    {
+      value: 'CORP',
+      label: 'General Corporation (Corp)',
+      description: 'Ideal for larger businesses and public companies',
+    },
+    {
+      value: 'NOT_SURE',
+      label: 'Not Sure which Company to Choose',
+      description: 'We&apos;ll help you choose the best option',
+    },
+  ];
+
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, active: false },
-    { text: 'New Company', icon: <NewCompanyIcon />, active: true },
-    { text: 'My Requests', icon: <MyRequestsIcon />, active: false },
-    { text: 'Tax Managements', icon: <TaxManagementIcon />, active: false },
-    { text: 'My Addresses', icon: <MyAddressesIcon />, active: false },
+    { text: 'Dashboard', icon: <DashboardIcon />, active: false, path: '/dashboard' },
+    { text: 'New Company', icon: <NewCompanyIcon />, active: true, path: '/new-request' },
+    { text: 'My Requests', icon: <MyRequestsIcon />, active: false, path: '/my-requests' },
+    { text: 'Tax Managements', icon: <TaxManagementIcon />, active: false, path: '/tax-management' },
+    { text: 'My Addresses', icon: <MyAddressesIcon />, active: false, path: '/my-addresses' },
   ];
 
   if (!user) {
     return (
       <Box
         sx={{
-          minHeight: '100vh',
+          width: '100vw',
+          height: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -359,6 +357,7 @@ export default function NewRequestPage() {
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
+              onClick={() => handleNavigation(item.path)}
               sx={{
                 borderRadius: 2,
                 backgroundColor: item.active ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
@@ -440,13 +439,28 @@ export default function NewRequestPage() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 600 }}>
-              Corpulate Dashboard
+              Corpulate - New Request
             </Typography>
             <IconButton color="inherit" sx={{ mr: 1 }}>
               <NotificationsIcon />
             </IconButton>
-            <IconButton color="inherit" onClick={handleProfileMenuOpen}>
-              <Avatar sx={{ width: 32, height: 32, background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)' }}>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32,
+                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                  fontSize: '0.875rem',
+                }}
+              >
                 {user.firstName?.[0]}
               </Avatar>
             </IconButton>
@@ -536,11 +550,10 @@ export default function NewRequestPage() {
             </Typography>
           </Box>
 
-          {/* Multi-Step Form */}
-          <Card sx={{ width: '100%', maxWidth: 'none' }}>
-            <CardContent sx={{ p: 4 }}>
-              {/* Stepper */}
-              <Stepper activeStep={activeStep} orientation="vertical" sx={{ mb: 4 }}>
+          {/* Stepper Header */}
+          <Card sx={{ width: '100%', maxWidth: 'none', mb: 3 }}>
+            <CardContent sx={{ p: 3 }}>
+              <Stepper activeStep={activeStep} orientation="vertical">
                 {steps.map((step, index) => (
                   <Step key={step.label}>
                     <StepLabel
@@ -550,16 +563,15 @@ export default function NewRequestPage() {
                             width: 40,
                             height: 40,
                             borderRadius: '50%',
-                            background: index <= activeStep 
-                              ? 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)' 
-                              : '#334155',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            backgroundColor: index <= activeStep ? '#6366f1' : '#334155',
                             color: 'white',
+                            fontSize: '1.2rem',
                           }}
                         >
-                          {index < activeStep ? <CheckCircleIcon /> : step.icon}
+                          {step.icon}
                         </Box>
                       )}
                     >
@@ -567,502 +579,519 @@ export default function NewRequestPage() {
                         {step.label}
                       </Typography>
                     </StepLabel>
-                    <StepContent>
-                      <Box sx={{ minHeight: 400, pl: 2 }}>
-                        {/* Step 1: Personal Information */}
-                        {index === 0 && (
-                          <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                              Personal Information
-                            </Typography>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12}>
-                                <TextField
-                                  fullWidth
-                                  label="Full Name"
-                                  value={formData.name}
-                                  onChange={(e) => handleInputChange('name', e.target.value)}
-                                  variant="outlined"
-                                  sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                      borderRadius: 3,
-                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                      border: '1px solid rgba(99, 102, 241, 0.2)',
-                                      '&:hover': {
-                                        border: '1px solid rgba(99, 102, 241, 0.4)',
-                                      },
-                                      '&.Mui-focused': {
-                                        border: '2px solid #6366f1',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                      },
-                                    },
-                                    '& .MuiInputLabel-root': {
-                                      color: '#cbd5e1',
-                                      '&.Mui-focused': {
-                                        color: '#6366f1',
-                                      },
-                                    },
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  fullWidth
-                                  label="Phone Number"
-                                  value={formData.phone}
-                                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                                  variant="outlined"
-                                  sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                      borderRadius: 3,
-                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                      border: '1px solid rgba(99, 102, 241, 0.2)',
-                                      '&:hover': {
-                                        border: '1px solid rgba(99, 102, 241, 0.4)',
-                                      },
-                                      '&.Mui-focused': {
-                                        border: '2px solid #6366f1',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                      },
-                                    },
-                                    '& .MuiInputLabel-root': {
-                                      color: '#cbd5e1',
-                                      '&.Mui-focused': {
-                                        color: '#6366f1',
-                                      },
-                                    },
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  fullWidth
-                                  label="Date of Birth"
-                                  type="date"
-                                  value={formData.dateOfBirth}
-                                  onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                                  InputLabelProps={{ shrink: true }}
-                                  variant="outlined"
-                                  sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                      borderRadius: 3,
-                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                      border: '1px solid rgba(99, 102, 241, 0.2)',
-                                      '&:hover': {
-                                        border: '1px solid rgba(99, 102, 241, 0.4)',
-                                      },
-                                      '&.Mui-focused': {
-                                        border: '2px solid #6366f1',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                      },
-                                    },
-                                    '& .MuiInputLabel-root': {
-                                      color: '#cbd5e1',
-                                      '&.Mui-focused': {
-                                        color: '#6366f1',
-                                      },
-                                    },
-                                  }}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Box>
-                        )}
-
-                        {/* Step 2: Company Type */}
-                        {index === 1 && (
-                          <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                              Select Company Type
-                            </Typography>
-                            <FormControl component="fieldset" fullWidth>
-                              <FormLabel component="legend" sx={{ mb: 2 }}>
-                                Choose your company type:
-                              </FormLabel>
-                              <RadioGroup
-                                value={formData.companyType}
-                                onChange={(e) => handleInputChange('companyType', e.target.value)}
-                              >
-                                {companyTypes.map((type) => (
-                                  <FormControlLabel
-                                    key={type}
-                                    value={type}
-                                    control={<Radio />}
-                                    label={type}
-                                    sx={{ mb: 1 }}
-                                  />
-                                ))}
-                              </RadioGroup>
-                            </FormControl>
-                          </Box>
-                        )}
-
-                        {/* Step 3: Package Selection */}
-                        {index === 2 && (
-                          <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                              Package Selection
-                            </Typography>
-                            <Grid container spacing={3}>
-                              {packages.map((pkg) => (
-                                <Grid item xs={12} md={4} key={pkg.id}>
-                                  <Card
-                                    sx={{
-                                      cursor: 'pointer',
-                                      border: formData.selectedPackage === pkg.id 
-                                        ? '2px solid #6366f1' 
-                                        : '1px solid #334155',
-                                      background: formData.selectedPackage === pkg.id 
-                                        ? 'rgba(99, 102, 241, 0.1)' 
-                                        : 'transparent',
-                                    }}
-                                    onClick={() => handleInputChange('selectedPackage', pkg.id)}
-                                  >
-                                    <CardContent>
-                                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                                        {pkg.name}
-                                      </Typography>
-                                      <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, color: '#6366f1' }}>
-                                        {pkg.price}
-                                      </Typography>
-                                      <Box>
-                                        {pkg.features.map((feature, featureIndex) => (
-                                          <Typography key={featureIndex} variant="body2" sx={{ mb: 0.5 }}>
-                                            • {feature}
-                                          </Typography>
-                                        ))}
-                                      </Box>
-                                    </CardContent>
-                                  </Card>
-                                </Grid>
-                              ))}
-                            </Grid>
-                          </Box>
-                        )}
-
-                        {/* Step 4: State Selection */}
-                        {index === 3 && (
-                          <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                              Select State
-                            </Typography>
-                            <FormControl fullWidth>
-                              <InputLabel sx={{ color: '#cbd5e1' }}>Choose your state</InputLabel>
-                              <Select
-                                value={formData.selectedState}
-                                onChange={(e) => handleInputChange('selectedState', e.target.value)}
-                                label="Choose your state"
-                                sx={{
-                                  borderRadius: 3,
-                                  backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                  border: '1px solid rgba(99, 102, 241, 0.2)',
-                                  '&:hover': {
-                                    border: '1px solid rgba(99, 102, 241, 0.4)',
-                                  },
-                                  '&.Mui-focused': {
-                                    border: '2px solid #6366f1',
-                                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                  },
-                                  '& .MuiOutlinedInput-notchedOutline': {
-                                    border: 'none',
-                                  },
-                                }}
-                              >
-                                {states.map((state) => (
-                                  <SelectMenuItem key={state} value={state}>
-                                    {state}
-                                  </SelectMenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Box>
-                        )}
-
-                        {/* Step 5: Shareholder Details */}
-                        {index === 4 && (
-                          <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                              Shareholder Details & Documents
-                            </Typography>
-                            <Grid container spacing={3}>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  fullWidth
-                                  label="Number of Shareholders"
-                                  type="number"
-                                  value={formData.shareholderNumber}
-                                  onChange={(e) => handleInputChange('shareholderNumber', e.target.value)}
-                                  variant="outlined"
-                                  sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                      borderRadius: 3,
-                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                      border: '1px solid rgba(99, 102, 241, 0.2)',
-                                      '&:hover': {
-                                        border: '1px solid rgba(99, 102, 241, 0.4)',
-                                      },
-                                      '&.Mui-focused': {
-                                        border: '2px solid #6366f1',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                      },
-                                    },
-                                    '& .MuiInputLabel-root': {
-                                      color: '#cbd5e1',
-                                      '&.Mui-focused': {
-                                        color: '#6366f1',
-                                      },
-                                    },
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  fullWidth
-                                  label="Company Name"
-                                  value={formData.companyName}
-                                  onChange={(e) => handleInputChange('companyName', e.target.value)}
-                                  variant="outlined"
-                                  sx={{ 
-                                    mb: 2,
-                                    '& .MuiOutlinedInput-root': {
-                                      borderRadius: 3,
-                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                      border: '1px solid rgba(99, 102, 241, 0.2)',
-                                      '&:hover': {
-                                        border: '1px solid rgba(99, 102, 241, 0.4)',
-                                      },
-                                      '&.Mui-focused': {
-                                        border: '2px solid #6366f1',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                      },
-                                    },
-                                    '& .MuiInputLabel-root': {
-                                      color: '#cbd5e1',
-                                      '&.Mui-focused': {
-                                        color: '#6366f1',
-                                      },
-                                    },
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <FormControl fullWidth sx={{ mb: 2 }}>
-                                  <InputLabel sx={{ color: '#cbd5e1' }}>Company Type</InputLabel>
-                                  <Select
-                                    value={formData.companyTypeDropdown}
-                                    onChange={(e) => handleInputChange('companyTypeDropdown', e.target.value)}
-                                    label="Company Type"
-                                    sx={{
-                                      borderRadius: 3,
-                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                      border: '1px solid rgba(99, 102, 241, 0.2)',
-                                      '&:hover': {
-                                        border: '1px solid rgba(99, 102, 241, 0.4)',
-                                      },
-                                      '&.Mui-focused': {
-                                        border: '2px solid #6366f1',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                      },
-                                      '& .MuiOutlinedInput-notchedOutline': {
-                                        border: 'none',
-                                      },
-                                    }}
-                                  >
-                                    {companyTypeOptions.map((option) => (
-                                      <SelectMenuItem key={option} value={option}>
-                                        {option}
-                                      </SelectMenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                                  Upload Documents
-                                </Typography>
-                                <Grid container spacing={2}>
-                                  <Grid item xs={12} sm={4}>
-                                    <Button
-                                      variant="outlined"
-                                      component="label"
-                                      startIcon={<CloudUploadIcon />}
-                                      fullWidth
-                                      sx={{
-                                        borderRadius: 3,
-                                        border: '2px dashed rgba(99, 102, 241, 0.3)',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                        color: '#6366f1',
-                                        py: 2,
-                                        '&:hover': {
-                                          border: '2px dashed #6366f1',
-                                          backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                        },
-                                      }}
-                                    >
-                                      Company Documents
-                                      <input
-                                        type="file"
-                                        hidden
-                                        onChange={(e) => handleDocumentUpload('companyDocuments', e.target.files[0])}
-                                      />
-                                    </Button>
-                                    {formData.documents.companyDocuments && (
-                                      <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                                        {formData.documents.companyDocuments.name}
-                                      </Typography>
-                                    )}
-                                  </Grid>
-                                  <Grid item xs={12} sm={4}>
-                                    <Button
-                                      variant="outlined"
-                                      component="label"
-                                      startIcon={<CloudUploadIcon />}
-                                      fullWidth
-                                      sx={{
-                                        borderRadius: 3,
-                                        border: '2px dashed rgba(99, 102, 241, 0.3)',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                        color: '#6366f1',
-                                        py: 2,
-                                        '&:hover': {
-                                          border: '2px dashed #6366f1',
-                                          backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                        },
-                                      }}
-                                    >
-                                      CNIC Image
-                                      <input
-                                        type="file"
-                                        hidden
-                                        onChange={(e) => handleDocumentUpload('cnicImage', e.target.files[0])}
-                                      />
-                                    </Button>
-                                    {formData.documents.cnicImage && (
-                                      <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                                        {formData.documents.cnicImage.name}
-                                      </Typography>
-                                    )}
-                                  </Grid>
-                                  <Grid item xs={12} sm={4}>
-                                    <Button
-                                      variant="outlined"
-                                      component="label"
-                                      startIcon={<CloudUploadIcon />}
-                                      fullWidth
-                                      sx={{
-                                        borderRadius: 3,
-                                        border: '2px dashed rgba(99, 102, 241, 0.3)',
-                                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                                        color: '#6366f1',
-                                        py: 2,
-                                        '&:hover': {
-                                          border: '2px dashed #6366f1',
-                                          backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                        },
-                                      }}
-                                    >
-                                      Passport Image
-                                      <input
-                                        type="file"
-                                        hidden
-                                        onChange={(e) => handleDocumentUpload('passportImage', e.target.files[0])}
-                                      />
-                                    </Button>
-                                    {formData.documents.passportImage && (
-                                      <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                                        {formData.documents.passportImage.name}
-                                      </Typography>
-                                    )}
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Box>
-                        )}
-
-                        {/* Navigation Buttons */}
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            variant="outlined"
-                            sx={{ 
-                              mr: 1,
-                              borderRadius: 3,
-                              px: 4,
-                              py: 1.5,
-                              border: '1px solid rgba(99, 102, 241, 0.3)',
-                              color: '#6366f1',
-                              '&:hover': {
-                                border: '1px solid #6366f1',
-                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                              },
-                              '&:disabled': {
-                                border: '1px solid #334155',
-                                color: '#64748b',
-                              },
-                            }}
-                          >
-                            Back
-                          </Button>
-                          <Box>
-                            {activeStep === steps.length - 1 ? (
-                              <Button
-                                variant="contained"
-                                onClick={handleSubmit}
-                                disabled={loading}
-                                startIcon={loading ? <CircularProgress size={20} /> : null}
-                                sx={{
-                                  borderRadius: 3,
-                                  px: 4,
-                                  py: 1.5,
-                                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                                  '&:hover': {
-                                    background: 'linear-gradient(135deg, #4f46e5 0%, #db2777 100%)',
-                                  },
-                                  '&:disabled': {
-                                    background: '#334155',
-                                    color: '#64748b',
-                                  },
-                                }}
-                              >
-                                {loading ? 'Submitting...' : 'Submit Request'}
-                              </Button>
-                            ) : (
-                              <Button 
-                                variant="contained" 
-                                onClick={handleNext}
-                                sx={{
-                                  borderRadius: 3,
-                                  px: 4,
-                                  py: 1.5,
-                                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                                  '&:hover': {
-                                    background: 'linear-gradient(135deg, #4f46e5 0%, #db2777 100%)',
-                                  },
-                                }}
-                              >
-                                Next
-                              </Button>
-                            )}
-                          </Box>
-                        </Box>
-                      </Box>
-                    </StepContent>
                   </Step>
                 ))}
               </Stepper>
+            </CardContent>
+          </Card>
 
+          {/* Form Content */}
+          <Card sx={{ width: '100%', maxWidth: 'none' }}>
+            <CardContent sx={{ p: 4 }}>
               {/* Error Alert */}
               {error && (
                 <Alert severity="error" sx={{ mb: 3 }}>
                   {error}
                 </Alert>
               )}
+
+              {/* Step Content */}
+              <Box sx={{ minHeight: 400 }}>
+                {/* Step 1: Personal Information */}
+                {activeStep === 0 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Personal Information
+                    </Typography>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Full Name"
+                          value={formData.name}
+                          onChange={(e) => handleInputChange('name', e.target.value)}
+                          variant="outlined"
+                          sx={{ 
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 3,
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              '&:hover': {
+                                border: '1px solid rgba(99, 102, 241, 0.4)',
+                              },
+                              '&.Mui-focused': {
+                                border: '2px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#cbd5e1',
+                              '&.Mui-focused': {
+                                color: '#6366f1',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Phone Number"
+                          value={formData.phone}
+                          onChange={(e) => handleInputChange('phone', e.target.value)}
+                          variant="outlined"
+                          sx={{ 
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 3,
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              '&:hover': {
+                                border: '1px solid rgba(99, 102, 241, 0.4)',
+                              },
+                              '&.Mui-focused': {
+                                border: '2px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#cbd5e1',
+                              '&.Mui-focused': {
+                                color: '#6366f1',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Date of Birth"
+                          type="date"
+                          value={formData.dateOfBirth}
+                          onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                          variant="outlined"
+                          InputLabelProps={{ shrink: true }}
+                          sx={{ 
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 3,
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              '&:hover': {
+                                border: '1px solid rgba(99, 102, 241, 0.4)',
+                              },
+                              '&.Mui-focused': {
+                                border: '2px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#cbd5e1',
+                              '&.Mui-focused': {
+                                color: '#6366f1',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+
+                {/* Step 2: Company Type */}
+                {activeStep === 1 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Company Type
+                    </Typography>
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend" sx={{ color: '#cbd5e1', mb: 2 }}>
+                        Select your company type
+                      </FormLabel>
+                      <RadioGroup
+                        value={formData.companyType}
+                        onChange={(e) => handleInputChange('companyType', e.target.value)}
+                        sx={{ gap: 2 }}
+                      >
+                        {companyTypeOptions.map((option) => (
+                          <FormControlLabel
+                            key={option.value}
+                            value={option.value}
+                            control={
+                              <Radio
+                                sx={{
+                                  color: '#6366f1',
+                                  '&.Mui-checked': {
+                                    color: '#6366f1',
+                                  },
+                                }}
+                              />
+                            }
+                            label={
+                              <Box>
+                                <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                                  {option.label}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                  {option.description}
+                                </Typography>
+                              </Box>
+                            }
+                            sx={{
+                              p: 2,
+                              borderRadius: 2,
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              '&:hover': {
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                            }}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                  </Box>
+                )}
+
+                {/* Step 3: Package Selection */}
+                {activeStep === 2 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Package Selection
+                    </Typography>
+                    <Grid container spacing={3}>
+                      {packages.map((pkg) => (
+                        <Grid item xs={12} md={4} key={pkg.id}>
+                          <Card
+                            sx={{
+                              cursor: 'pointer',
+                              border: formData.selectedPackage === pkg.id ? '2px solid #6366f1' : '1px solid rgba(99, 102, 241, 0.2)',
+                              backgroundColor: formData.selectedPackage === pkg.id ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.05)',
+                              '&:hover': {
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                border: '2px solid #6366f1',
+                              },
+                            }}
+                            onClick={() => handleInputChange('selectedPackage', pkg.id)}
+                          >
+                            <CardContent>
+                              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                <AttachMoneyIcon sx={{ color: '#6366f1', mr: 1 }} />
+                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                  {pkg.name}
+                                </Typography>
+                              </Box>
+                              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, color: '#6366f1' }}>
+                                ${pkg.price}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                                {pkg.description}
+                              </Typography>
+                              <Box sx={{ mb: 2 }}>
+                                {pkg.features.map((feature, index) => (
+                                  <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                    <CheckCircleIcon sx={{ color: '#10b981', mr: 1, fontSize: '1rem' }} />
+                                    <Typography variant="body2">{feature}</Typography>
+                                  </Box>
+                                ))}
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
+                )}
+
+                {/* Step 4: State Selection */}
+                {activeStep === 3 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      State Selection
+                    </Typography>
+                    <FormControl fullWidth variant="outlined">
+                      <InputLabel sx={{ color: '#cbd5e1' }}>Select State</InputLabel>
+                      <Select
+                        value={formData.state}
+                        onChange={(e) => handleInputChange('state', e.target.value)}
+                        label="Select State"
+                        sx={{
+                          borderRadius: 3,
+                          backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                          border: '1px solid rgba(99, 102, 241, 0.2)',
+                          '&:hover': {
+                            border: '1px solid rgba(99, 102, 241, 0.4)',
+                          },
+                          '&.Mui-focused': {
+                            border: '2px solid #6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                          },
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            border: 'none',
+                          },
+                        }}
+                      >
+                        {states.map((state) => (
+                          <SelectMenuItem key={state} value={state}>
+                            {state}
+                          </SelectMenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                )}
+
+                {/* Step 5: Shareholder Details & Documents */}
+                {activeStep === 4 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Shareholder Details & Documents
+                    </Typography>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Number of Shareholders"
+                          type="number"
+                          value={formData.shareholders}
+                          onChange={(e) => handleInputChange('shareholders', e.target.value)}
+                          variant="outlined"
+                          sx={{ 
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 3,
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              '&:hover': {
+                                border: '1px solid rgba(99, 102, 241, 0.4)',
+                              },
+                              '&.Mui-focused': {
+                                border: '2px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#cbd5e1',
+                              '&.Mui-focused': {
+                                color: '#6366f1',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Company Name"
+                          value={formData.companyName}
+                          onChange={(e) => handleInputChange('companyName', e.target.value)}
+                          variant="outlined"
+                          sx={{ 
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 3,
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              '&:hover': {
+                                border: '1px solid rgba(99, 102, 241, 0.4)',
+                              },
+                              '&.Mui-focused': {
+                                border: '2px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                            },
+                            '& .MuiInputLabel-root': {
+                              color: '#cbd5e1',
+                              '&.Mui-focused': {
+                                color: '#6366f1',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                          <InputLabel sx={{ color: '#cbd5e1' }}>Company Type</InputLabel>
+                          <Select
+                            value={formData.companyType}
+                            onChange={(e) => handleInputChange('companyType', e.target.value)}
+                            label="Company Type"
+                            sx={{
+                              borderRadius: 3,
+                              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
+                              '&:hover': {
+                                border: '1px solid rgba(99, 102, 241, 0.4)',
+                              },
+                              '&.Mui-focused': {
+                                border: '2px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                              '& .MuiOutlinedInput-notchedOutline': {
+                                border: 'none',
+                              },
+                            }}
+                          >
+                            <SelectMenuItem value="LLC">Limited Liability Company</SelectMenuItem>
+                            <SelectMenuItem value="LLC_ALT">L.L.C</SelectMenuItem>
+                            <SelectMenuItem value="LLC_FULL">LLC</SelectMenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                          Document Uploads
+                        </Typography>
+                        <Grid container spacing={2}>
+                          <Grid item xs={12} sm={4}>
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              startIcon={<CloudUploadIcon />}
+                              sx={{
+                                width: '100%',
+                                py: 2,
+                                borderRadius: 3,
+                                border: '2px dashed rgba(99, 102, 241, 0.3)',
+                                backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                color: '#6366f1',
+                                '&:hover': {
+                                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                  border: '2px dashed #6366f1',
+                                },
+                              }}
+                            >
+                              Company Documents
+                              <input
+                                type="file"
+                                hidden
+                                multiple
+                                onChange={(e) => handleDocumentUpload('companyDocs', e.target.files)}
+                              />
+                            </Button>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              startIcon={<CloudUploadIcon />}
+                              sx={{
+                                width: '100%',
+                                py: 2,
+                                borderRadius: 3,
+                                border: '2px dashed rgba(99, 102, 241, 0.3)',
+                                backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                color: '#6366f1',
+                                '&:hover': {
+                                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                  border: '2px dashed #6366f1',
+                                },
+                              }}
+                            >
+                              CNIC Image
+                              <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={(e) => handleDocumentUpload('cnicImage', e.target.files)}
+                              />
+                            </Button>
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              startIcon={<CloudUploadIcon />}
+                              sx={{
+                                width: '100%',
+                                py: 2,
+                                borderRadius: 3,
+                                border: '2px dashed rgba(99, 102, 241, 0.3)',
+                                backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                color: '#6366f1',
+                                '&:hover': {
+                                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                  border: '2px dashed #6366f1',
+                                },
+                              }}
+                            >
+                              Passport Image
+                              <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={(e) => handleDocumentUpload('passportImage', e.target.files)}
+                              />
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+
+                {/* Navigation Buttons */}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{
+                      borderRadius: 3,
+                      px: 4,
+                      py: 1.5,
+                      border: '2px solid rgba(99, 102, 241, 0.3)',
+                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
+                      color: '#6366f1',
+                      fontWeight: 600,
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
+                        border: '2px solid #6366f1',
+                      },
+                    }}
+                  >
+                    Back
+                  </Button>
+                  <Box sx={{ flex: '1 1 auto' }} />
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      variant="contained"
+                      onClick={handleSubmit}
+                      disabled={loading}
+                      sx={{
+                        borderRadius: 3,
+                        px: 4,
+                        py: 1.5,
+                        background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                        fontWeight: 600,
+                        '&:hover': {
+                          background: 'linear-gradient(135deg, #5b5bd6 0%, #d946ef 100%)',
+                        },
+                      }}
+                    >
+                      {loading ? <CircularProgress size={24} color="inherit" /> : 'Submit Request'}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      sx={{
+                        borderRadius: 3,
+                        px: 4,
+                        py: 1.5,
+                        background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                        fontWeight: 600,
+                        '&:hover': {
+                          background: 'linear-gradient(135deg, #5b5bd6 0%, #d946ef 100%)',
+                        },
+                      }}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Box>
