@@ -113,6 +113,7 @@ export default function NewRequestPage() {
     name: '',
     phone: '',
     dateOfBirth: '',
+    country: '',
     companyType: '',
     selectedPackage: '',
     state: '',
@@ -175,6 +176,7 @@ export default function NewRequestPage() {
       name: '',
       phone: '',
       dateOfBirth: '',
+      country: '',
       companyType: '',
       selectedPackage: '',
       state: '',
@@ -225,6 +227,7 @@ export default function NewRequestPage() {
 
   const steps = [
     { label: 'Personal Information', icon: <PersonIcon /> },
+    { label: 'Country Selection', icon: <LocationCityIcon /> },
     { label: 'Company Type', icon: <BusinessCenterIcon /> },
     { label: 'Package Selection', icon: <AttachMoneyIcon /> },
     { label: 'State Selection', icon: <LocationCityIcon /> },
@@ -237,6 +240,7 @@ export default function NewRequestPage() {
     'Not Sure which Company to Choose',
   ];
 
+  const countries = ['United Kingdom', 'United States', 'U.A.E'];
   const states = ['Texas', 'Florida', 'Missouri', 'Ohio', 'Wyoming'];
 
   const packages = [
@@ -726,8 +730,52 @@ export default function NewRequestPage() {
                   </Box>
                 )}
 
-                {/* Step 2: Company Type */}
+                {/* Step 2: Country Selection */}
                 {activeStep === 1 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Country Selection
+                    </Typography>
+                    <FormControl fullWidth variant="outlined" sx={{ maxWidth: 500 }}>
+                      <InputLabel sx={{ color: '#cbd5e1' }}>Select Country</InputLabel>
+                      <Select
+                        value={formData.country}
+                        onChange={(e) => handleInputChange('country', e.target.value)}
+                        label="Select Country"
+                        sx={{
+                          borderRadius: 3,
+                          backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                          border: '1px solid rgba(99, 102, 241, 0.2)',
+                          '&:hover': {
+                            border: '1px solid rgba(99, 102, 241, 0.4)',
+                          },
+                          '&.Mui-focused': {
+                            border: '2px solid #6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                          },
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            border: 'none',
+                          },
+                          '& .MuiSelect-select': {
+                            padding: '14px',
+                          },
+                        }}
+                      >
+                        {countries.map((country) => (
+                          <SelectMenuItem key={country} value={country}>
+                            {country}
+                          </SelectMenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 2, maxWidth: 500 }}>
+                      Please select the country where you want to register your business. This will determine the applicable regulations and requirements.
+                    </Typography>
+                  </Box>
+                )}
+
+                {/* Step 3: Company Type */}
+                {activeStep === 2 && (
                   <Box>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
                       Company Type
@@ -781,8 +829,8 @@ export default function NewRequestPage() {
                   </Box>
                 )}
 
-                {/* Step 3: Package Selection */}
-                {activeStep === 2 && (
+                {/* Step 4: Package Selection */}
+                {activeStep === 3 && (
                   <Box>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
                       Package Selection
@@ -831,8 +879,8 @@ export default function NewRequestPage() {
                   </Box>
                 )}
 
-                {/* Step 4: State Selection */}
-                {activeStep === 3 && (
+                {/* Step 5: State Selection */}
+                {activeStep === 4 && (
                   <Box>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
                       State Selection
@@ -869,8 +917,8 @@ export default function NewRequestPage() {
                   </Box>
                 )}
 
-                {/* Step 5: Shareholder Details & Documents */}
-                {activeStep === 4 && (
+                {/* Step 6: Shareholder Details & Documents */}
+                {activeStep === 5 && (
                   <Box>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 4 }}>
                       Shareholder Details & Documents
