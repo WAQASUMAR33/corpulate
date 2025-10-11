@@ -67,6 +67,7 @@ import {
   Group as GroupIcon,
   CloudUpload as CloudUploadIcon,
   CheckCircle as CheckCircleIcon,
+  Settings as SettingsIcon,
 } from '@mui/icons-material';
 
 const drawerWidth = 280;
