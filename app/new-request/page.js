@@ -226,8 +226,8 @@ export default function NewRequestPage() {
   };
 
   const steps = [
-    { label: 'Personal Information', icon: <PersonIcon /> },
     { label: 'Country Selection', icon: <LocationCityIcon /> },
+    { label: 'Personal Information', icon: <PersonIcon /> },
     { label: 'Company Type', icon: <BusinessCenterIcon /> },
     { label: 'Package Selection', icon: <AttachMoneyIcon /> },
     { label: 'State Selection', icon: <LocationCityIcon /> },
@@ -627,8 +627,52 @@ export default function NewRequestPage() {
 
               {/* Step Content */}
               <Box sx={{ minHeight: 400 }}>
-                {/* Step 1: Personal Information */}
+                {/* Step 1: Country Selection */}
                 {activeStep === 0 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Country Selection
+                    </Typography>
+                    <FormControl fullWidth variant="outlined" sx={{ maxWidth: 500 }}>
+                      <InputLabel sx={{ color: '#cbd5e1' }}>Select Country</InputLabel>
+                      <Select
+                        value={formData.country}
+                        onChange={(e) => handleInputChange('country', e.target.value)}
+                        label="Select Country"
+                        sx={{
+                          borderRadius: 3,
+                          backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                          border: '1px solid rgba(99, 102, 241, 0.2)',
+                          '&:hover': {
+                            border: '1px solid rgba(99, 102, 241, 0.4)',
+                          },
+                          '&.Mui-focused': {
+                            border: '2px solid #6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                          },
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            border: 'none',
+                          },
+                          '& .MuiSelect-select': {
+                            padding: '14px',
+                          },
+                        }}
+                      >
+                        {countries.map((country) => (
+                          <SelectMenuItem key={country} value={country}>
+                            {country}
+                          </SelectMenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 2, maxWidth: 500 }}>
+                      Please select the country where you want to register your business. This will determine the applicable regulations and requirements.
+                    </Typography>
+                  </Box>
+                )}
+
+                {/* Step 2: Personal Information */}
+                {activeStep === 1 && (
                   <Box>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
                       Personal Information
@@ -727,50 +771,6 @@ export default function NewRequestPage() {
                         />
                       </Grid>
                     </Grid>
-                  </Box>
-                )}
-
-                {/* Step 2: Country Selection */}
-                {activeStep === 1 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                      Country Selection
-                    </Typography>
-                    <FormControl fullWidth variant="outlined" sx={{ maxWidth: 500 }}>
-                      <InputLabel sx={{ color: '#cbd5e1' }}>Select Country</InputLabel>
-                      <Select
-                        value={formData.country}
-                        onChange={(e) => handleInputChange('country', e.target.value)}
-                        label="Select Country"
-                        sx={{
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                          border: '1px solid rgba(99, 102, 241, 0.2)',
-                          '&:hover': {
-                            border: '1px solid rgba(99, 102, 241, 0.4)',
-                          },
-                          '&.Mui-focused': {
-                            border: '2px solid #6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                          },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            border: 'none',
-                          },
-                          '& .MuiSelect-select': {
-                            padding: '14px',
-                          },
-                        }}
-                      >
-                        {countries.map((country) => (
-                          <SelectMenuItem key={country} value={country}>
-                            {country}
-                          </SelectMenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 2, maxWidth: 500 }}>
-                      Please select the country where you want to register your business. This will determine the applicable regulations and requirements.
-                    </Typography>
                   </Box>
                 )}
 
