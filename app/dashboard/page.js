@@ -191,7 +191,7 @@ export default function DashboardPage() {
   const steps = [
     { label: 'Personal Information', icon: <PersonIcon /> },
     { label: 'Company Type', icon: <BusinessCenterIcon /> },
-    { label: 'Plan Selection', icon: <AttachMoneyIcon /> },
+    { label: 'Package Selection', icon: <AttachMoneyIcon /> },
     { label: 'State Selection', icon: <LocationCityIcon /> },
     { label: 'Shareholder Details', icon: <GroupIcon /> },
   ];
@@ -293,11 +293,11 @@ export default function DashboardPage() {
   };
 
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, active: true },
-    { text: 'New Company', icon: <NewCompanyIcon /> },
-    { text: 'My Requests', icon: <MyRequestsIcon /> },
-    { text: 'Tax Managements', icon: <TaxManagementIcon /> },
-    { text: 'My Addresses', icon: <MyAddressesIcon /> },
+    { text: 'Dashboard', icon: <DashboardIcon />, active: false },
+    { text: 'New Company', icon: <NewCompanyIcon />, active: true },
+    { text: 'My Requests', icon: <MyRequestsIcon />, active: false },
+    { text: 'Tax Managements', icon: <TaxManagementIcon />, active: false },
+    { text: 'My Addresses', icon: <MyAddressesIcon />, active: false },
   ];
 
   if (!user) {
@@ -537,10 +537,10 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <Box sx={{ mb: 4 }}>
             <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
-              Create New Company 🏢
+              New Request 📋
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Complete the following steps to register your company.
+              Submit a new company registration request.
             </Typography>
           </Box>
 
@@ -712,7 +712,7 @@ export default function DashboardPage() {
                         {index === 2 && (
                           <Box>
                             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                              Plan Selection
+                              Package Selection
                             </Typography>
                             <Grid container spacing={3}>
                               {packages.map((pkg) => (
