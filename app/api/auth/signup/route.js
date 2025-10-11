@@ -132,11 +132,11 @@ export async function POST(request) {
                   <p><strong>Account Created:</strong> ${new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
 
-                <p>You can now access your dashboard and start managing your business operations.</p>
+                <p>You can now log in to your account and start managing your business operations.</p>
                 
                 <center>
-                  <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/dashboard" class="button">
-                    Go to Dashboard →
+                  <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/login" class="button">
+                    Log In to Your Account →
                   </a>
                 </center>
 
