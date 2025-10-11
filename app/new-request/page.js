@@ -1067,7 +1067,7 @@ export default function NewRequestPage() {
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 3, color: '#6366f1' }}>
                         Company Type Selection
                       </Typography>
-                      <FormControl fullWidth variant="outlined" sx={{ maxWidth: 500 }}>
+                      <FormControl fullWidth variant="outlined">
                         <InputLabel sx={{ color: '#cbd5e1' }}>Company Type</InputLabel>
                         <Select
                           value={formData.companyType}
@@ -1105,7 +1105,7 @@ export default function NewRequestPage() {
                         Document Uploads
                       </Typography>
                       <Grid container spacing={3}>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} sm={6} md={4}>
                           <Box sx={{ 
                             p: 3, 
                             border: '2px dashed rgba(99, 102, 241, 0.3)', 
@@ -1148,7 +1148,7 @@ export default function NewRequestPage() {
                             </Button>
                           </Box>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} sm={6} md={4}>
                           <Box sx={{ 
                             p: 3, 
                             border: '2px dashed rgba(99, 102, 241, 0.3)', 
@@ -1191,7 +1191,7 @@ export default function NewRequestPage() {
                             </Button>
                           </Box>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} sm={6} md={4}>
                           <Box sx={{ 
                             p: 3, 
                             border: '2px dashed rgba(99, 102, 241, 0.3)', 
