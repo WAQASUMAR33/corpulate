@@ -26,9 +26,9 @@ export async function GET(request) {
     if (query) {
       whereConditions.push({
         OR: [
-          { ad_title: { contains: query, mode: 'insensitive' } },
-          { ad_description: { contains: query, mode: 'insensitive' } },
-          { ad_information: { contains: query, mode: 'insensitive' } },
+          { ad_title: { contains: query } },
+          { ad_description: { contains: query } },
+          { ad_information: { contains: query } },
         ],
       });
     }
@@ -47,8 +47,8 @@ export async function GET(request) {
     if (category) {
       whereConditions.push({
         OR: [
-          { ad_title: { contains: category, mode: 'insensitive' } },
-          { ad_description: { contains: category, mode: 'insensitive' } },
+          { ad_title: { contains: category } },
+          { ad_description: { contains: category } },
         ],
       });
     }

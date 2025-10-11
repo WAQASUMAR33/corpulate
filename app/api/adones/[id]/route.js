@@ -124,7 +124,6 @@ export async function PUT(request, { params }) {
         where: {
           ad_title: {
             equals: ad_title,
-            mode: 'insensitive',
           },
           ad_id: {
             not: adId,

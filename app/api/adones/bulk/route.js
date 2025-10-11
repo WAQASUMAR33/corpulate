@@ -107,7 +107,6 @@ export async function POST(request) {
             where: {
               ad_title: {
                 equals: data.ad_title,
-                mode: 'insensitive',
               },
               ad_id: {
                 notIn: adIds,

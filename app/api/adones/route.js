@@ -22,9 +22,9 @@ export async function GET(request) {
       AND: [
         {
           OR: [
-            { ad_title: { contains: search, mode: 'insensitive' } },
-            { ad_description: { contains: search, mode: 'insensitive' } },
-            { ad_information: { contains: search, mode: 'insensitive' } },
+            { ad_title: { contains: search } },
+            { ad_description: { contains: search } },
+            { ad_information: { contains: search } },
           ],
         },
         {
@@ -113,7 +113,6 @@ export async function POST(request) {
       where: {
         ad_title: {
           equals: ad_title,
-          mode: 'insensitive',
         },
       },
     });
