@@ -956,46 +956,6 @@ export default function NewRequestPage() {
                             onClick={() => handleInputChange('state', state)}
                           >
                             <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                              <Box sx={{ mb: 2 }}>
-                                <Box
-                                  sx={{
-                                    width: 60,
-                                    height: 40,
-                                    borderRadius: 2,
-                                    mx: 'auto',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '24px',
-                                    fontWeight: 'bold',
-                                    border: '2px solid rgba(99, 102, 241, 0.3)',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                                    backdropFilter: 'blur(10px)',
-                                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
-                                    transition: 'all 0.3s ease',
-                                    '&:hover': {
-                                      transform: 'scale(1.05)',
-                                      boxShadow: '0 6px 20px rgba(99, 102, 241, 0.2)',
-                                    },
-                                  }}
-                                >
-                                  {state === 'Texas' && (
-                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🤠</Box>
-                                  )}
-                                  {state === 'Florida' && (
-                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏖️</Box>
-                                  )}
-                                  {state === 'Missouri' && (
-                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏛️</Box>
-                                  )}
-                                  {state === 'Ohio' && (
-                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏭</Box>
-                                  )}
-                                  {state === 'Wyoming' && (
-                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏔️</Box>
-                                  )}
-                                </Box>
-                              </Box>
                               <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                                 {state}
                               </Typography>
