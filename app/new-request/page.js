@@ -933,35 +933,97 @@ export default function NewRequestPage() {
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
                       State Selection
                     </Typography>
-                    <FormControl fullWidth variant="outlined">
-                      <InputLabel sx={{ color: '#cbd5e1' }}>Select State</InputLabel>
-                      <Select
-                        value={formData.state}
-                        onChange={(e) => handleInputChange('state', e.target.value)}
-                        label="Select State"
-                        sx={{
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                          border: '1px solid rgba(99, 102, 241, 0.2)',
-                          '&:hover': {
-                            border: '1px solid rgba(99, 102, 241, 0.4)',
-                          },
-                          '&.Mui-focused': {
-                            border: '2px solid #6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                          },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            border: 'none',
-                          },
-                        }}
-                      >
-                        {states.map((state) => (
-                          <SelectMenuItem key={state} value={state}>
-                            {state}
-                          </SelectMenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
+                      Choose the state where you want to register your business. Each state has different regulations and requirements.
+                    </Typography>
+                    
+                    <Grid container spacing={3}>
+                      {states.map((state) => (
+                        <Grid item xs={12} sm={6} md={4} key={state}>
+                          <Card
+                            sx={{
+                              cursor: 'pointer',
+                              border: formData.state === state ? '2px solid #6366f1' : '1px solid rgba(99, 102, 241, 0.2)',
+                              backgroundColor: formData.state === state ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.05)',
+                              transition: 'all 0.3s ease',
+                              '&:hover': {
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                border: '2px solid #6366f1',
+                                transform: 'translateY(-2px)',
+                                boxShadow: '0 8px 25px rgba(99, 102, 241, 0.15)',
+                              },
+                            }}
+                            onClick={() => handleInputChange('state', state)}
+                          >
+                            <CardContent sx={{ textAlign: 'center', p: 3 }}>
+                              <Box sx={{ mb: 2 }}>
+                                <Box
+                                  sx={{
+                                    width: 60,
+                                    height: 40,
+                                    borderRadius: 2,
+                                    mx: 'auto',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '24px',
+                                    fontWeight: 'bold',
+                                    border: '2px solid rgba(99, 102, 241, 0.3)',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                    backdropFilter: 'blur(10px)',
+                                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                                    transition: 'all 0.3s ease',
+                                    '&:hover': {
+                                      transform: 'scale(1.05)',
+                                      boxShadow: '0 6px 20px rgba(99, 102, 241, 0.2)',
+                                    },
+                                  }}
+                                >
+                                  {state === 'Texas' && (
+                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🤠</Box>
+                                  )}
+                                  {state === 'Florida' && (
+                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏖️</Box>
+                                  )}
+                                  {state === 'Missouri' && (
+                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏛️</Box>
+                                  )}
+                                  {state === 'Ohio' && (
+                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏭</Box>
+                                  )}
+                                  {state === 'Wyoming' && (
+                                    <Box sx={{ fontSize: '24px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🏔️</Box>
+                                  )}
+                                </Box>
+                              </Box>
+                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                {state}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {state === 'Texas' && 'Business-friendly regulations'}
+                                {state === 'Florida' && 'No state income tax'}
+                                {state === 'Missouri' && 'Central location advantage'}
+                                {state === 'Ohio' && 'Manufacturing hub'}
+                                {state === 'Wyoming' && 'Tax advantages'}
+                              </Typography>
+                              {formData.state === state && (
+                                <Box sx={{ mt: 2 }}>
+                                  <Chip
+                                    label="Selected"
+                                    size="small"
+                                    sx={{
+                                      backgroundColor: '#6366f1',
+                                      color: 'white',
+                                      fontWeight: 600,
+                                    }}
+                                  />
+                                </Box>
+                              )}
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
                   </Box>
                 )}
 
