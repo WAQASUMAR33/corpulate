@@ -26,6 +26,24 @@ import {
   CssBaseline,
   useMediaQuery,
   Paper,
+  Tabs,
+  Tab,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem as SelectMenuItem,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -42,6 +60,13 @@ import {
   Business as BusinessIcon,
   Assessment as AssessmentIcon,
   Security as SecurityIcon,
+  Person as PersonIcon,
+  BusinessCenter as BusinessCenterIcon,
+  AttachMoney as AttachMoneyIcon,
+  LocationCity as LocationCityIcon,
+  Group as GroupIcon,
+  CloudUpload as CloudUploadIcon,
+  CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
 
 const drawerWidth = 280;
@@ -100,6 +125,34 @@ export default function DashboardPage() {
   const [user, setUser] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [formData, setFormData] = useState({
+    // Step 1: Personal Information
+    name: '',
+    phone: '',
+    dateOfBirth: '',
+    
+    // Step 2: Company Type
+    companyType: '',
+    
+    // Step 3: Package Selection
+    selectedPackage: '',
+    
+    // Step 4: State Selection
+    selectedState: '',
+    
+    // Step 5: Shareholder Information
+    shareholderNumber: '',
+    companyName: '',
+    companyTypeDropdown: '',
+    documents: {
+      companyDocuments: null,
+      cnicImage: null,
+      passportImage: null,
+    }
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const isMobile = useMediaQuery(darkTheme.breakpoints.down('md'));
 
   useEffect(() => {
@@ -131,6 +184,111 @@ export default function DashboardPage() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     router.push('/login');
+  };
+
+  // Step definitions
+  const steps = [
+    { label: 'Personal Information', icon: <PersonIcon /> },
+    { label: 'Company Type', icon: <BusinessCenterIcon /> },
+    { label: 'Plan Selection', icon: <AttachMoneyIcon /> },
+    { label: 'State Selection', icon: <LocationCityIcon /> },
+    { label: 'Shareholder Details', icon: <GroupIcon /> },
+  ];
+
+  // Company types
+  const companyTypes = [
+    'Limited Liability Company Limited',
+    'General Corporation (Corp)',
+    'Not Sure which Company to Choose'
+  ];
+
+  // States
+  const states = [
+    'Texas',
+    'Florida',
+    'Missouri',
+    'Ohio',
+    'Wyoming'
+  ];
+
+  // Packages (mock data)
+  const packages = [
+    { id: 'basic', name: 'Basic Package', price: '$99', features: ['Basic features', 'Email support'] },
+    { id: 'premium', name: 'Premium Package', price: '$199', features: ['All basic features', 'Priority support', 'Advanced tools'] },
+    { id: 'enterprise', name: 'Enterprise Package', price: '$399', features: ['All premium features', '24/7 support', 'Custom solutions'] },
+  ];
+
+  // Company type dropdown options
+  const companyTypeOptions = [
+    'Limited Liability Company',
+    'L.L.C',
+    'LLC'
+  ];
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+    setFormData({
+      name: '',
+      phone: '',
+      dateOfBirth: '',
+      companyType: '',
+      selectedPackage: '',
+      selectedState: '',
+      shareholderNumber: '',
+      companyName: '',
+      companyTypeDropdown: '',
+      documents: {
+        companyDocuments: null,
+        cnicImage: null,
+        passportImage: null,
+      }
+    });
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleDocumentUpload = (documentType, file) => {
+    setFormData(prev => ({
+      ...prev,
+      documents: {
+        ...prev.documents,
+        [documentType]: file
+      }
+    }));
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError('');
+    
+    try {
+      // Here you would typically send the form data to your API
+      console.log('Form data:', formData);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Success - could redirect or show success message
+      alert('Form submitted successfully!');
+      handleReset();
+    } catch (err) {
+      setError('Failed to submit form. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const menuItems = [
@@ -378,203 +536,333 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <Box sx={{ mb: 4 }}>
             <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
-              Welcome back, {user.firstName}! 👋
+              Create New Company 🏢
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Here&apos;s what&apos;s happening with your account today.
+              Complete the following steps to register your company.
             </Typography>
           </Box>
 
-          {/* Stats Cards */}
-          <Grid container spacing={3} sx={{ mb: 4 }}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <BusinessIcon sx={{ color: '#6366f1', mr: 1 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Account Status
-                    </Typography>
-                  </Box>
-                  <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-                    Active
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Your account is fully verified
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <SecurityIcon sx={{ color: '#10b981', mr: 1 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Security Score
-                    </Typography>
-                  </Box>
-                  <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-                    95%
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Excellent security status
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <CalendarIcon sx={{ color: '#f59e0b', mr: 1 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Member Since
-                    </Typography>
-                  </Box>
-                  <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-                    {new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {Math.floor((new Date() - new Date(user.createdAt)) / (1000 * 60 * 60 * 24))} days ago
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card>
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <AssessmentIcon sx={{ color: '#ec4899', mr: 1 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Profile Complete
-                    </Typography>
-                  </Box>
-                  <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-                    85%
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Almost complete profile
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          {/* Multi-Step Form */}
+          <Card sx={{ maxWidth: 800, mx: 'auto' }}>
+            <CardContent sx={{ p: 4 }}>
+              {/* Stepper */}
+              <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
+                {steps.map((step, index) => (
+                  <Step key={step.label}>
+                    <StepLabel
+                      StepIconComponent={() => (
+                        <Box
+                          sx={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: '50%',
+                            background: index <= activeStep 
+                              ? 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)' 
+                              : '#334155',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                          }}
+                        >
+                          {index < activeStep ? <CheckCircleIcon /> : step.icon}
+                        </Box>
+                      )}
+                    >
+                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                        {step.label}
+                      </Typography>
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
 
-          {/* User Information */}
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={8}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                    Personal Information
-                  </Typography>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          Full Name
-                        </Typography>
-                        <Paper sx={{ p: 2, background: 'rgba(99, 102, 241, 0.05)', border: '1px solid rgba(99, 102, 241, 0.1)' }}>
-                          <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                            {user.firstName} {user.lastName}
-                          </Typography>
-                        </Paper>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          User ID
-                        </Typography>
-                        <Paper sx={{ p: 2, background: 'rgba(99, 102, 241, 0.05)', border: '1px solid rgba(99, 102, 241, 0.1)' }}>
-                          <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                            #{user.id}
-                          </Typography>
-                        </Paper>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          Email Address
-                        </Typography>
-                        <Paper sx={{ p: 2, background: 'rgba(99, 102, 241, 0.05)', border: '1px solid rgba(99, 102, 241, 0.1)' }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <EmailIcon sx={{ mr: 1, color: '#6366f1' }} />
-                            <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                              {user.email}
-                            </Typography>
-                          </Box>
-                        </Paper>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          Phone Number
-                        </Typography>
-                        <Paper sx={{ p: 2, background: 'rgba(99, 102, 241, 0.05)', border: '1px solid rgba(99, 102, 241, 0.1)' }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <PhoneIcon sx={{ mr: 1, color: '#6366f1' }} />
-                            <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                              {user.phoneNumber || 'Not provided'}
-                            </Typography>
-                          </Box>
-                        </Paper>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                    Account Details
-                  </Typography>
-                  <Box sx={{ mb: 3 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Account Created
+              {/* Error Alert */}
+              {error && (
+                <Alert severity="error" sx={{ mb: 3 }}>
+                  {error}
+                </Alert>
+              )}
+
+              {/* Step Content */}
+              <Box sx={{ minHeight: 400 }}>
+                {/* Step 1: Personal Information */}
+                {activeStep === 0 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Personal Information
                     </Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {new Date(user.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </Typography>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Full Name"
+                          value={formData.name}
+                          onChange={(e) => handleInputChange('name', e.target.value)}
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Phone Number"
+                          value={formData.phone}
+                          onChange={(e) => handleInputChange('phone', e.target.value)}
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Date of Birth"
+                          type="date"
+                          value={formData.dateOfBirth}
+                          onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                          InputLabelProps={{ shrink: true }}
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                    </Grid>
                   </Box>
-                  <Box sx={{ mb: 3 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Last Updated
+                )}
+
+                {/* Step 2: Company Type */}
+                {activeStep === 1 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Select Company Type
                     </Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                      {new Date(user.updatedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </Typography>
+                    <FormControl component="fieldset" fullWidth>
+                      <FormLabel component="legend" sx={{ mb: 2 }}>
+                        Choose your company type:
+                      </FormLabel>
+                      <RadioGroup
+                        value={formData.companyType}
+                        onChange={(e) => handleInputChange('companyType', e.target.value)}
+                      >
+                        {companyTypes.map((type) => (
+                          <FormControlLabel
+                            key={type}
+                            value={type}
+                            control={<Radio />}
+                            label={type}
+                            sx={{ mb: 1 }}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
                   </Box>
-                  <Box sx={{ mb: 3 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Account Type
+                )}
+
+                {/* Step 3: Package Selection */}
+                {activeStep === 2 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Plan Selection
                     </Typography>
-                    <Chip
-                      label="Premium"
-                      sx={{
-                        background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
-                        color: 'white',
-                        fontWeight: 500,
-                      }}
-                    />
+                    <Grid container spacing={3}>
+                      {packages.map((pkg) => (
+                        <Grid item xs={12} md={4} key={pkg.id}>
+                          <Card
+                            sx={{
+                              cursor: 'pointer',
+                              border: formData.selectedPackage === pkg.id 
+                                ? '2px solid #6366f1' 
+                                : '1px solid #334155',
+                              background: formData.selectedPackage === pkg.id 
+                                ? 'rgba(99, 102, 241, 0.1)' 
+                                : 'transparent',
+                            }}
+                            onClick={() => handleInputChange('selectedPackage', pkg.id)}
+                          >
+                            <CardContent>
+                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                {pkg.name}
+                              </Typography>
+                              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, color: '#6366f1' }}>
+                                {pkg.price}
+                              </Typography>
+                              <Box>
+                                {pkg.features.map((feature, index) => (
+                                  <Typography key={index} variant="body2" sx={{ mb: 0.5 }}>
+                                    • {feature}
+                                  </Typography>
+                                ))}
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
                   </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+                )}
+
+                {/* Step 4: State Selection */}
+                {activeStep === 3 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Select State
+                    </Typography>
+                    <FormControl fullWidth>
+                      <InputLabel>Choose your state</InputLabel>
+                      <Select
+                        value={formData.selectedState}
+                        onChange={(e) => handleInputChange('selectedState', e.target.value)}
+                        label="Choose your state"
+                      >
+                        {states.map((state) => (
+                          <SelectMenuItem key={state} value={state}>
+                            {state}
+                          </SelectMenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                )}
+
+                {/* Step 5: Shareholder Details */}
+                {activeStep === 4 && (
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                      Shareholder Details & Documents
+                    </Typography>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Number of Shareholders"
+                          type="number"
+                          value={formData.shareholderNumber}
+                          onChange={(e) => handleInputChange('shareholderNumber', e.target.value)}
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Company Name"
+                          value={formData.companyName}
+                          onChange={(e) => handleInputChange('companyName', e.target.value)}
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <FormControl fullWidth sx={{ mb: 2 }}>
+                          <InputLabel>Company Type</InputLabel>
+                          <Select
+                            value={formData.companyTypeDropdown}
+                            onChange={(e) => handleInputChange('companyTypeDropdown', e.target.value)}
+                            label="Company Type"
+                          >
+                            {companyTypeOptions.map((option) => (
+                              <SelectMenuItem key={option} value={option}>
+                                {option}
+                              </SelectMenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                          Upload Documents
+                        </Typography>
+                        <Grid container spacing={2}>
+                          <Grid item xs={12} sm={4}>
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              startIcon={<CloudUploadIcon />}
+                              fullWidth
+                            >
+                              Company Documents
+                              <input
+                                type="file"
+                                hidden
+                                onChange={(e) => handleDocumentUpload('companyDocuments', e.target.files[0])}
+                              />
+                            </Button>
+                            {formData.documents.companyDocuments && (
+                              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                                {formData.documents.companyDocuments.name}
+                              </Typography>
+                            )}
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              startIcon={<CloudUploadIcon />}
+                              fullWidth
+                            >
+                              CNIC Image
+                              <input
+                                type="file"
+                                hidden
+                                onChange={(e) => handleDocumentUpload('cnicImage', e.target.files[0])}
+                              />
+                            </Button>
+                            {formData.documents.cnicImage && (
+                              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                                {formData.documents.cnicImage.name}
+                              </Typography>
+                            )}
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              startIcon={<CloudUploadIcon />}
+                              fullWidth
+                            >
+                              Passport Image
+                              <input
+                                type="file"
+                                hidden
+                                onChange={(e) => handleDocumentUpload('passportImage', e.target.files[0])}
+                              />
+                            </Button>
+                            {formData.documents.passportImage && (
+                              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                                {formData.documents.passportImage.name}
+                              </Typography>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+              </Box>
+
+              {/* Navigation Buttons */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Back
+                </Button>
+                <Box>
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      variant="contained"
+                      onClick={handleSubmit}
+                      disabled={loading}
+                      startIcon={loading ? <CircularProgress size={20} /> : null}
+                    >
+                      {loading ? 'Submitting...' : 'Submit'}
+                    </Button>
+                  ) : (
+                    <Button variant="contained" onClick={handleNext}>
+                      Next
+                    </Button>
+                  )}
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
         </Box>
       </Box>
     </ThemeProvider>
