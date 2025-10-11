@@ -43,6 +43,7 @@ import {
   Assessment as AssessmentIcon,
   Security as SecurityIcon,
   Settings as SettingsIcon,
+  Person as PersonIcon,
 } from '@mui/icons-material';
 
 const drawerWidth = 280;
