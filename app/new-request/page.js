@@ -633,41 +633,64 @@ export default function NewRequestPage() {
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
                       Country Selection
                     </Typography>
-                    <FormControl fullWidth variant="outlined" sx={{ maxWidth: 500 }}>
-                      <InputLabel sx={{ color: '#cbd5e1' }}>Select Country</InputLabel>
-                      <Select
-                        value={formData.country}
-                        onChange={(e) => handleInputChange('country', e.target.value)}
-                        label="Select Country"
-                        sx={{
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                          border: '1px solid rgba(99, 102, 241, 0.2)',
-                          '&:hover': {
-                            border: '1px solid rgba(99, 102, 241, 0.4)',
-                          },
-                          '&.Mui-focused': {
-                            border: '2px solid #6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                          },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            border: 'none',
-                          },
-                          '& .MuiSelect-select': {
-                            padding: '14px',
-                          },
-                        }}
-                      >
-                        {countries.map((country) => (
-                          <SelectMenuItem key={country} value={country}>
-                            {country}
-                          </SelectMenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 2, maxWidth: 500 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
                       Please select the country where you want to register your business. This will determine the applicable regulations and requirements.
                     </Typography>
+                    
+                    <Grid container spacing={3}>
+                      {countries.map((country) => (
+                        <Grid item xs={12} md={4} key={country}>
+                          <Card
+                            sx={{
+                              cursor: 'pointer',
+                              border: formData.country === country ? '2px solid #6366f1' : '1px solid rgba(99, 102, 241, 0.2)',
+                              backgroundColor: formData.country === country ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.05)',
+                              transition: 'all 0.3s ease',
+                              '&:hover': {
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                border: '2px solid #6366f1',
+                                transform: 'translateY(-2px)',
+                                boxShadow: '0 8px 25px rgba(99, 102, 241, 0.15)',
+                              },
+                            }}
+                            onClick={() => handleInputChange('country', country)}
+                          >
+                            <CardContent sx={{ textAlign: 'center', p: 3 }}>
+                              <Box sx={{ mb: 2 }}>
+                                <LocationCityIcon 
+                                  sx={{ 
+                                    fontSize: 48, 
+                                    color: formData.country === country ? '#6366f1' : '#cbd5e1',
+                                    transition: 'color 0.3s ease'
+                                  }} 
+                                />
+                              </Box>
+                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                {country}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {country === 'United Kingdom' && 'GBP • London-based registration'}
+                                {country === 'United States' && 'USD • US state registration'}
+                                {country === 'U.A.E' && 'AED • Dubai-based registration'}
+                              </Typography>
+                              {formData.country === country && (
+                                <Box sx={{ mt: 2 }}>
+                                  <Chip
+                                    label="Selected"
+                                    size="small"
+                                    sx={{
+                                      backgroundColor: '#6366f1',
+                                      color: 'white',
+                                      fontWeight: 500,
+                                    }}
+                                  />
+                                </Box>
+                              )}
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
                   </Box>
                 )}
 
