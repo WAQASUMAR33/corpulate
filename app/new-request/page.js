@@ -550,44 +550,70 @@ export default function NewRequestPage() {
             </Typography>
           </Box>
 
-          {/* Stepper Header */}
-          <Card sx={{ width: '100%', maxWidth: 'none', mb: 3 }}>
-            <CardContent sx={{ p: 3 }}>
-              <Stepper activeStep={activeStep} orientation="vertical">
-                {steps.map((step, index) => (
-                  <Step key={step.label}>
-                    <StepLabel
-                      StepIconComponent={() => (
-                        <Box
-                          sx={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: index <= activeStep ? '#6366f1' : '#334155',
-                            color: 'white',
-                            fontSize: '1.2rem',
-                          }}
-                        >
-                          {step.icon}
-                        </Box>
-                      )}
-                    >
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                        {step.label}
-                      </Typography>
-                    </StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-            </CardContent>
-          </Card>
+          {/* Main Content Row */}
+          <Box sx={{ 
+            display: 'flex', 
+            gap: 3,
+            flexDirection: { xs: 'column', md: 'row' }
+          }}>
+            {/* Left Side - Stepper */}
+            <Card sx={{ 
+              width: { xs: '100%', md: '30%' }, 
+              maxWidth: { xs: 'none', md: 400 }, 
+              height: 'fit-content',
+              order: { xs: 2, md: 1 }
+            }}>
+              <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, textAlign: 'center' }}>
+                  Progress Steps
+                </Typography>
+                <Stepper 
+                  activeStep={activeStep} 
+                  orientation="vertical"
+                  sx={{
+                    '& .MuiStepLabel-root': {
+                      padding: '8px 0',
+                    }
+                  }}
+                >
+                  {steps.map((step, index) => (
+                    <Step key={step.label}>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Box
+                            sx={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: index <= activeStep ? '#6366f1' : '#334155',
+                              color: 'white',
+                              fontSize: '1.2rem',
+                              transition: 'all 0.3s ease',
+                            }}
+                          >
+                            {step.icon}
+                          </Box>
+                        )}
+                      >
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                          {step.label}
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </CardContent>
+            </Card>
 
-          {/* Form Content */}
-          <Card sx={{ width: '100%', maxWidth: 'none' }}>
-            <CardContent sx={{ p: 4 }}>
+            {/* Right Side - Form Content */}
+            <Card sx={{ 
+              flex: 1,
+              order: { xs: 1, md: 2 }
+            }}>
+              <CardContent sx={{ p: 4 }}>
               {/* Error Alert */}
               {error && (
                 <Alert severity="error" sx={{ mb: 3 }}>
@@ -1092,8 +1118,9 @@ export default function NewRequestPage() {
                   )}
                 </Box>
               </Box>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Box>
         </Box>
       </Box>
     </ThemeProvider>
