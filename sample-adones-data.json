@@ -1,0 +1,126 @@
+{
+  "adOnes": [
+    {
+      "ad_title": "Priority Processing",
+      "ad_price": 99.99,
+      "ad_description": "Get your request processed with priority handling",
+      "ad_information": "This add-on ensures your request is processed within 24 hours instead of the standard 3-5 business days. Perfect for urgent business registrations."
+    },
+    {
+      "ad_title": "Express Delivery",
+      "ad_price": 149.99,
+      "ad_description": "Fast-track document delivery service",
+      "ad_information": "Receive your documents via express courier service within 2-3 business days. Includes tracking and signature confirmation."
+    },
+    {
+      "ad_title": "Legal Consultation",
+      "ad_price": 299.99,
+      "ad_description": "One-on-one legal consultation session",
+      "ad_information": "30-minute consultation with our legal expert to discuss your business structure, compliance requirements, and best practices."
+    },
+    {
+      "ad_title": "Document Review",
+      "ad_price": 199.99,
+      "ad_description": "Professional document review service",
+      "ad_information": "Our experts will review all your submitted documents for accuracy, completeness, and compliance with regulatory requirements."
+    },
+    {
+      "ad_title": "Compliance Monitoring",
+      "ad_price": 399.99,
+      "ad_description": "Ongoing compliance monitoring for 1 year",
+      "ad_information": "Monthly compliance checks and notifications for regulatory changes affecting your business. Includes quarterly compliance reports."
+    },
+    {
+      "ad_title": "Registered Agent Service",
+      "ad_price": 199.99,
+      "ad_description": "Professional registered agent service",
+      "ad_information": "We act as your registered agent for one year, handling official correspondence and legal notices on your behalf."
+    },
+    {
+      "ad_title": "EIN Application",
+      "ad_price": 79.99,
+      "ad_description": "Employer Identification Number application",
+      "ad_information": "We'll handle your EIN application with the IRS, ensuring all forms are completed correctly and submitted promptly."
+    },
+    {
+      "ad_title": "Business License Research",
+      "ad_price": 149.99,
+      "ad_description": "Comprehensive business license research",
+      "ad_information": "Research and identify all required business licenses and permits for your specific industry and location."
+    },
+    {
+      "ad_title": "Operating Agreement Drafting",
+      "ad_price": 399.99,
+      "ad_description": "Custom operating agreement drafting",
+      "ad_information": "Professional drafting of your LLC operating agreement, tailored to your specific business needs and requirements."
+    },
+    {
+      "ad_title": "Annual Report Filing",
+      "ad_price": 99.99,
+      "ad_description": "Annual report filing service",
+      "ad_information": "We'll handle your annual report filing with the state, ensuring compliance and avoiding late fees."
+    },
+    {
+      "ad_title": "Business Name Reservation",
+      "ad_price": 49.99,
+      "ad_description": "Reserve your business name",
+      "ad_information": "Reserve your desired business name for up to 120 days while you prepare your registration documents."
+    },
+    {
+      "ad_title": "Certificate of Good Standing",
+      "ad_price": 79.99,
+      "ad_description": "Obtain certificate of good standing",
+      "ad_information": "We'll obtain your certificate of good standing from the state, which is often required for business transactions."
+    },
+    {
+      "ad_title": "Foreign Qualification",
+      "ad_price": 299.99,
+      "ad_description": "Foreign qualification service",
+      "ad_information": "Register your business to operate in additional states beyond your home state. Includes all necessary filings."
+    },
+    {
+      "ad_title": "Dissolution Service",
+      "ad_price": 199.99,
+      "ad_description": "Business dissolution service",
+      "ad_information": "Properly dissolve your business entity, including all required filings and notifications to relevant parties."
+    },
+    {
+      "ad_title": "Amendment Service",
+      "ad_price": 149.99,
+      "ad_description": "Business amendment service",
+      "ad_information": "File amendments to your business registration, such as changes to business name, address, or registered agent."
+    }
+  ],
+  "categories": [
+    "Processing",
+    "Delivery",
+    "Legal",
+    "Compliance",
+    "Documentation",
+    "Research",
+    "Filing",
+    "Registration"
+  ],
+  "priceRanges": {
+    "budget": { "min": 0, "max": 99.99 },
+    "standard": { "min": 100, "max": 199.99 },
+    "premium": { "min": 200, "max": 299.99 },
+    "enterprise": { "min": 300, "max": 999.99 }
+  },
+  "usageStats": {
+    "mostPopular": [
+      "Priority Processing",
+      "Express Delivery",
+      "Document Review",
+      "EIN Application",
+      "Business License Research"
+    ],
+    "revenueByCategory": {
+      "Processing": 299.97,
+      "Delivery": 149.99,
+      "Legal": 699.98,
+      "Compliance": 399.99,
+      "Documentation": 279.98
+    }
+  }
+}
