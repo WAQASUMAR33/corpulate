@@ -1,0 +1,96 @@
+{
+  "packages": [
+    {
+      "package_title": "Basic Startup Package",
+      "package_description": "Perfect for new businesses starting their journey. Includes essential features for company formation and basic compliance.",
+      "package_price": 99.99
+    },
+    {
+      "package_title": "Professional Business Package",
+      "package_description": "Comprehensive solution for established businesses. Includes advanced features, compliance management, and priority support.",
+      "package_price": 299.99
+    },
+    {
+      "package_title": "Enterprise Premium Package",
+      "package_description": "Complete business management solution for large enterprises. Includes all features, custom solutions, and 24/7 dedicated support.",
+      "package_price": 599.99
+    },
+    {
+      "package_title": "LLC Formation Package",
+      "package_description": "Specialized package for Limited Liability Company formation. Includes state-specific requirements and compliance documentation.",
+      "package_price": 199.99
+    },
+    {
+      "package_title": "Corporation Setup Package",
+      "package_description": "Complete corporation formation package. Includes bylaws, stock certificates, and corporate governance setup.",
+      "package_price": 399.99
+    },
+    {
+      "package_title": "Tax Compliance Package",
+      "package_description": "Essential tax compliance and reporting package. Includes quarterly filings and annual compliance requirements.",
+      "package_price": 149.99
+    },
+    {
+      "package_title": "Multi-State Package",
+      "package_description": "Package for businesses operating in multiple states. Includes compliance for all states and coordination services.",
+      "package_price": 799.99
+    },
+    {
+      "package_title": "Non-Profit Package",
+      "package_description": "Specialized package for non-profit organizations. Includes 501(c)(3) application assistance and compliance management.",
+      "package_price": 349.99
+    }
+  ],
+  "test_requests": [
+    {
+      "name": "John Smith",
+      "phone": "+1-555-0123",
+      "company_name": "Smith Technologies LLC",
+      "company_type": "Limited Liability Company Limited",
+      "state": "Texas",
+      "share_holders": "2",
+      "selected_company_type": "LLC",
+      "packageId": 1
+    },
+    {
+      "name": "Sarah Johnson",
+      "phone": "+1-555-0456",
+      "company_name": "Johnson Consulting Corp",
+      "company_type": "General Corporation (Corp)",
+      "state": "Florida",
+      "share_holders": "5",
+      "selected_company_type": "Corporation",
+      "packageId": 2
+    },
+    {
+      "name": "Michael Brown",
+      "phone": "+1-555-0789",
+      "company_name": "Brown Enterprises Inc",
+      "company_type": "General Corporation (Corp)",
+      "state": "Ohio",
+      "share_holders": "10",
+      "selected_company_type": "Corporation",
+      "packageId": 3
+    }
+  ],
+  "api_endpoints": {
+    "base_url": "https://your-app.vercel.app/api",
+    "local_url": "http://localhost:3000/api",
+    "endpoints": {
+      "packages": {
+        "list": "GET /api/packages",
+        "create": "POST /api/packages",
+        "get": "GET /api/packages/[id]",
+        "update": "PUT /api/packages/[id]",
+        "delete": "DELETE /api/packages/[id]"
+      },
+      "analytics": {
+        "stats": "GET /api/packages/stats",
+        "search": "GET /api/packages/search"
+      },
+      "bulk": {
+        "operations": "POST /api/packages/bulk"
+      }
+    }
+  }
+}
