@@ -548,7 +548,7 @@ export default function DashboardPage() {
           <Card sx={{ maxWidth: 800, mx: 'auto' }}>
             <CardContent sx={{ p: 4 }}>
               {/* Stepper */}
-              <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
+              <Stepper activeStep={activeStep} orientation="vertical" sx={{ mb: 4 }}>
                 {steps.map((step, index) => (
                   <Step key={step.label}>
                     <StepLabel
@@ -575,6 +575,283 @@ export default function DashboardPage() {
                         {step.label}
                       </Typography>
                     </StepLabel>
+                    <StepContent>
+                      <Box sx={{ minHeight: 400, pl: 2 }}>
+                        {/* Step 1: Personal Information */}
+                        {index === 0 && (
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                              Personal Information
+                            </Typography>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12}>
+                                <TextField
+                                  fullWidth
+                                  label="Full Name"
+                                  value={formData.name}
+                                  onChange={(e) => handleInputChange('name', e.target.value)}
+                                  sx={{ mb: 2 }}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <TextField
+                                  fullWidth
+                                  label="Phone Number"
+                                  value={formData.phone}
+                                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                                  sx={{ mb: 2 }}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <TextField
+                                  fullWidth
+                                  label="Date of Birth"
+                                  type="date"
+                                  value={formData.dateOfBirth}
+                                  onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                                  InputLabelProps={{ shrink: true }}
+                                  sx={{ mb: 2 }}
+                                />
+                              </Grid>
+                            </Grid>
+                          </Box>
+                        )}
+
+                        {/* Step 2: Company Type */}
+                        {index === 1 && (
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                              Select Company Type
+                            </Typography>
+                            <FormControl component="fieldset" fullWidth>
+                              <FormLabel component="legend" sx={{ mb: 2 }}>
+                                Choose your company type:
+                              </FormLabel>
+                              <RadioGroup
+                                value={formData.companyType}
+                                onChange={(e) => handleInputChange('companyType', e.target.value)}
+                              >
+                                {companyTypes.map((type) => (
+                                  <FormControlLabel
+                                    key={type}
+                                    value={type}
+                                    control={<Radio />}
+                                    label={type}
+                                    sx={{ mb: 1 }}
+                                  />
+                                ))}
+                              </RadioGroup>
+                            </FormControl>
+                          </Box>
+                        )}
+
+                        {/* Step 3: Package Selection */}
+                        {index === 2 && (
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                              Plan Selection
+                            </Typography>
+                            <Grid container spacing={3}>
+                              {packages.map((pkg) => (
+                                <Grid item xs={12} md={4} key={pkg.id}>
+                                  <Card
+                                    sx={{
+                                      cursor: 'pointer',
+                                      border: formData.selectedPackage === pkg.id 
+                                        ? '2px solid #6366f1' 
+                                        : '1px solid #334155',
+                                      background: formData.selectedPackage === pkg.id 
+                                        ? 'rgba(99, 102, 241, 0.1)' 
+                                        : 'transparent',
+                                    }}
+                                    onClick={() => handleInputChange('selectedPackage', pkg.id)}
+                                  >
+                                    <CardContent>
+                                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                        {pkg.name}
+                                      </Typography>
+                                      <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, color: '#6366f1' }}>
+                                        {pkg.price}
+                                      </Typography>
+                                      <Box>
+                                        {pkg.features.map((feature, featureIndex) => (
+                                          <Typography key={featureIndex} variant="body2" sx={{ mb: 0.5 }}>
+                                            • {feature}
+                                          </Typography>
+                                        ))}
+                                      </Box>
+                                    </CardContent>
+                                  </Card>
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </Box>
+                        )}
+
+                        {/* Step 4: State Selection */}
+                        {index === 3 && (
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                              Select State
+                            </Typography>
+                            <FormControl fullWidth>
+                              <InputLabel>Choose your state</InputLabel>
+                              <Select
+                                value={formData.selectedState}
+                                onChange={(e) => handleInputChange('selectedState', e.target.value)}
+                                label="Choose your state"
+                              >
+                                {states.map((state) => (
+                                  <SelectMenuItem key={state} value={state}>
+                                    {state}
+                                  </SelectMenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Box>
+                        )}
+
+                        {/* Step 5: Shareholder Details */}
+                        {index === 4 && (
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                              Shareholder Details & Documents
+                            </Typography>
+                            <Grid container spacing={3}>
+                              <Grid item xs={12} sm={6}>
+                                <TextField
+                                  fullWidth
+                                  label="Number of Shareholders"
+                                  type="number"
+                                  value={formData.shareholderNumber}
+                                  onChange={(e) => handleInputChange('shareholderNumber', e.target.value)}
+                                  sx={{ mb: 2 }}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <TextField
+                                  fullWidth
+                                  label="Company Name"
+                                  value={formData.companyName}
+                                  onChange={(e) => handleInputChange('companyName', e.target.value)}
+                                  sx={{ mb: 2 }}
+                                />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <FormControl fullWidth sx={{ mb: 2 }}>
+                                  <InputLabel>Company Type</InputLabel>
+                                  <Select
+                                    value={formData.companyTypeDropdown}
+                                    onChange={(e) => handleInputChange('companyTypeDropdown', e.target.value)}
+                                    label="Company Type"
+                                  >
+                                    {companyTypeOptions.map((option) => (
+                                      <SelectMenuItem key={option} value={option}>
+                                        {option}
+                                      </SelectMenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                                  Upload Documents
+                                </Typography>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={12} sm={4}>
+                                    <Button
+                                      variant="outlined"
+                                      component="label"
+                                      startIcon={<CloudUploadIcon />}
+                                      fullWidth
+                                    >
+                                      Company Documents
+                                      <input
+                                        type="file"
+                                        hidden
+                                        onChange={(e) => handleDocumentUpload('companyDocuments', e.target.files[0])}
+                                      />
+                                    </Button>
+                                    {formData.documents.companyDocuments && (
+                                      <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                                        {formData.documents.companyDocuments.name}
+                                      </Typography>
+                                    )}
+                                  </Grid>
+                                  <Grid item xs={12} sm={4}>
+                                    <Button
+                                      variant="outlined"
+                                      component="label"
+                                      startIcon={<CloudUploadIcon />}
+                                      fullWidth
+                                    >
+                                      CNIC Image
+                                      <input
+                                        type="file"
+                                        hidden
+                                        onChange={(e) => handleDocumentUpload('cnicImage', e.target.files[0])}
+                                      />
+                                    </Button>
+                                    {formData.documents.cnicImage && (
+                                      <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                                        {formData.documents.cnicImage.name}
+                                      </Typography>
+                                    )}
+                                  </Grid>
+                                  <Grid item xs={12} sm={4}>
+                                    <Button
+                                      variant="outlined"
+                                      component="label"
+                                      startIcon={<CloudUploadIcon />}
+                                      fullWidth
+                                    >
+                                      Passport Image
+                                      <input
+                                        type="file"
+                                        hidden
+                                        onChange={(e) => handleDocumentUpload('passportImage', e.target.files[0])}
+                                      />
+                                    </Button>
+                                    {formData.documents.passportImage && (
+                                      <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                                        {formData.documents.passportImage.name}
+                                      </Typography>
+                                    )}
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Box>
+                        )}
+
+                        {/* Navigation Buttons */}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                          <Button
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            sx={{ mr: 1 }}
+                          >
+                            Back
+                          </Button>
+                          <Box>
+                            {activeStep === steps.length - 1 ? (
+                              <Button
+                                variant="contained"
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                startIcon={loading ? <CircularProgress size={20} /> : null}
+                              >
+                                {loading ? 'Submitting...' : 'Submit'}
+                              </Button>
+                            ) : (
+                              <Button variant="contained" onClick={handleNext}>
+                                Next
+                              </Button>
+                            )}
+                          </Box>
+                        </Box>
+                      </Box>
+                    </StepContent>
                   </Step>
                 ))}
               </Stepper>
@@ -585,283 +862,6 @@ export default function DashboardPage() {
                   {error}
                 </Alert>
               )}
-
-              {/* Step Content */}
-              <Box sx={{ minHeight: 400 }}>
-                {/* Step 1: Personal Information */}
-                {activeStep === 0 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                      Personal Information
-                    </Typography>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Full Name"
-                          value={formData.name}
-                          onChange={(e) => handleInputChange('name', e.target.value)}
-                          sx={{ mb: 2 }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Phone Number"
-                          value={formData.phone}
-                          onChange={(e) => handleInputChange('phone', e.target.value)}
-                          sx={{ mb: 2 }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Date of Birth"
-                          type="date"
-                          value={formData.dateOfBirth}
-                          onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                          InputLabelProps={{ shrink: true }}
-                          sx={{ mb: 2 }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
-                )}
-
-                {/* Step 2: Company Type */}
-                {activeStep === 1 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                      Select Company Type
-                    </Typography>
-                    <FormControl component="fieldset" fullWidth>
-                      <FormLabel component="legend" sx={{ mb: 2 }}>
-                        Choose your company type:
-                      </FormLabel>
-                      <RadioGroup
-                        value={formData.companyType}
-                        onChange={(e) => handleInputChange('companyType', e.target.value)}
-                      >
-                        {companyTypes.map((type) => (
-                          <FormControlLabel
-                            key={type}
-                            value={type}
-                            control={<Radio />}
-                            label={type}
-                            sx={{ mb: 1 }}
-                          />
-                        ))}
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
-                )}
-
-                {/* Step 3: Package Selection */}
-                {activeStep === 2 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                      Plan Selection
-                    </Typography>
-                    <Grid container spacing={3}>
-                      {packages.map((pkg) => (
-                        <Grid item xs={12} md={4} key={pkg.id}>
-                          <Card
-                            sx={{
-                              cursor: 'pointer',
-                              border: formData.selectedPackage === pkg.id 
-                                ? '2px solid #6366f1' 
-                                : '1px solid #334155',
-                              background: formData.selectedPackage === pkg.id 
-                                ? 'rgba(99, 102, 241, 0.1)' 
-                                : 'transparent',
-                            }}
-                            onClick={() => handleInputChange('selectedPackage', pkg.id)}
-                          >
-                            <CardContent>
-                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                                {pkg.name}
-                              </Typography>
-                              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, color: '#6366f1' }}>
-                                {pkg.price}
-                              </Typography>
-                              <Box>
-                                {pkg.features.map((feature, index) => (
-                                  <Typography key={index} variant="body2" sx={{ mb: 0.5 }}>
-                                    • {feature}
-                                  </Typography>
-                                ))}
-                              </Box>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Box>
-                )}
-
-                {/* Step 4: State Selection */}
-                {activeStep === 3 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                      Select State
-                    </Typography>
-                    <FormControl fullWidth>
-                      <InputLabel>Choose your state</InputLabel>
-                      <Select
-                        value={formData.selectedState}
-                        onChange={(e) => handleInputChange('selectedState', e.target.value)}
-                        label="Choose your state"
-                      >
-                        {states.map((state) => (
-                          <SelectMenuItem key={state} value={state}>
-                            {state}
-                          </SelectMenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Box>
-                )}
-
-                {/* Step 5: Shareholder Details */}
-                {activeStep === 4 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                      Shareholder Details & Documents
-                    </Typography>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Number of Shareholders"
-                          type="number"
-                          value={formData.shareholderNumber}
-                          onChange={(e) => handleInputChange('shareholderNumber', e.target.value)}
-                          sx={{ mb: 2 }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Company Name"
-                          value={formData.companyName}
-                          onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          sx={{ mb: 2 }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <FormControl fullWidth sx={{ mb: 2 }}>
-                          <InputLabel>Company Type</InputLabel>
-                          <Select
-                            value={formData.companyTypeDropdown}
-                            onChange={(e) => handleInputChange('companyTypeDropdown', e.target.value)}
-                            label="Company Type"
-                          >
-                            {companyTypeOptions.map((option) => (
-                              <SelectMenuItem key={option} value={option}>
-                                {option}
-                              </SelectMenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                          Upload Documents
-                        </Typography>
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={4}>
-                            <Button
-                              variant="outlined"
-                              component="label"
-                              startIcon={<CloudUploadIcon />}
-                              fullWidth
-                            >
-                              Company Documents
-                              <input
-                                type="file"
-                                hidden
-                                onChange={(e) => handleDocumentUpload('companyDocuments', e.target.files[0])}
-                              />
-                            </Button>
-                            {formData.documents.companyDocuments && (
-                              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                                {formData.documents.companyDocuments.name}
-                              </Typography>
-                            )}
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Button
-                              variant="outlined"
-                              component="label"
-                              startIcon={<CloudUploadIcon />}
-                              fullWidth
-                            >
-                              CNIC Image
-                              <input
-                                type="file"
-                                hidden
-                                onChange={(e) => handleDocumentUpload('cnicImage', e.target.files[0])}
-                              />
-                            </Button>
-                            {formData.documents.cnicImage && (
-                              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                                {formData.documents.cnicImage.name}
-                              </Typography>
-                            )}
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Button
-                              variant="outlined"
-                              component="label"
-                              startIcon={<CloudUploadIcon />}
-                              fullWidth
-                            >
-                              Passport Image
-                              <input
-                                type="file"
-                                hidden
-                                onChange={(e) => handleDocumentUpload('passportImage', e.target.files[0])}
-                              />
-                            </Button>
-                            {formData.documents.passportImage && (
-                              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                                {formData.documents.passportImage.name}
-                              </Typography>
-                            )}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                )}
-              </Box>
-
-              {/* Navigation Buttons */}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Back
-                </Button>
-                <Box>
-                  {activeStep === steps.length - 1 ? (
-                    <Button
-                      variant="contained"
-                      onClick={handleSubmit}
-                      disabled={loading}
-                      startIcon={loading ? <CircularProgress size={20} /> : null}
-                    >
-                      {loading ? 'Submitting...' : 'Submit'}
-                    </Button>
-                  ) : (
-                    <Button variant="contained" onClick={handleNext}>
-                      Next
-                    </Button>
-                  )}
-                </Box>
-              </Box>
             </CardContent>
           </Card>
         </Box>
