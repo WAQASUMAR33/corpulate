@@ -545,7 +545,7 @@ export default function DashboardPage() {
           </Box>
 
           {/* Multi-Step Form */}
-          <Card sx={{ maxWidth: 800, mx: 'auto' }}>
+          <Card sx={{ width: '100%', maxWidth: 'none' }}>
             <CardContent sx={{ p: 4 }}>
               {/* Stepper */}
               <Stepper activeStep={activeStep} orientation="vertical" sx={{ mb: 4 }}>
@@ -590,7 +590,28 @@ export default function DashboardPage() {
                                   label="Full Name"
                                   value={formData.name}
                                   onChange={(e) => handleInputChange('name', e.target.value)}
-                                  sx={{ mb: 2 }}
+                                  variant="outlined"
+                                  sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                      borderRadius: 3,
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                                      '&:hover': {
+                                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                                      },
+                                      '&.Mui-focused': {
+                                        border: '2px solid #6366f1',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                      },
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                      color: '#cbd5e1',
+                                      '&.Mui-focused': {
+                                        color: '#6366f1',
+                                      },
+                                    },
+                                  }}
                                 />
                               </Grid>
                               <Grid item xs={12} sm={6}>
@@ -599,7 +620,28 @@ export default function DashboardPage() {
                                   label="Phone Number"
                                   value={formData.phone}
                                   onChange={(e) => handleInputChange('phone', e.target.value)}
-                                  sx={{ mb: 2 }}
+                                  variant="outlined"
+                                  sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                      borderRadius: 3,
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                                      '&:hover': {
+                                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                                      },
+                                      '&.Mui-focused': {
+                                        border: '2px solid #6366f1',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                      },
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                      color: '#cbd5e1',
+                                      '&.Mui-focused': {
+                                        color: '#6366f1',
+                                      },
+                                    },
+                                  }}
                                 />
                               </Grid>
                               <Grid item xs={12} sm={6}>
@@ -610,7 +652,28 @@ export default function DashboardPage() {
                                   value={formData.dateOfBirth}
                                   onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
                                   InputLabelProps={{ shrink: true }}
-                                  sx={{ mb: 2 }}
+                                  variant="outlined"
+                                  sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                      borderRadius: 3,
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                                      '&:hover': {
+                                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                                      },
+                                      '&.Mui-focused': {
+                                        border: '2px solid #6366f1',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                      },
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                      color: '#cbd5e1',
+                                      '&.Mui-focused': {
+                                        color: '#6366f1',
+                                      },
+                                    },
+                                  }}
                                 />
                               </Grid>
                             </Grid>
@@ -695,11 +758,26 @@ export default function DashboardPage() {
                               Select State
                             </Typography>
                             <FormControl fullWidth>
-                              <InputLabel>Choose your state</InputLabel>
+                              <InputLabel sx={{ color: '#cbd5e1' }}>Choose your state</InputLabel>
                               <Select
                                 value={formData.selectedState}
                                 onChange={(e) => handleInputChange('selectedState', e.target.value)}
                                 label="Choose your state"
+                                sx={{
+                                  borderRadius: 3,
+                                  backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                  border: '1px solid rgba(99, 102, 241, 0.2)',
+                                  '&:hover': {
+                                    border: '1px solid rgba(99, 102, 241, 0.4)',
+                                  },
+                                  '&.Mui-focused': {
+                                    border: '2px solid #6366f1',
+                                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                  },
+                                  '& .MuiOutlinedInput-notchedOutline': {
+                                    border: 'none',
+                                  },
+                                }}
                               >
                                 {states.map((state) => (
                                   <SelectMenuItem key={state} value={state}>
@@ -725,7 +803,28 @@ export default function DashboardPage() {
                                   type="number"
                                   value={formData.shareholderNumber}
                                   onChange={(e) => handleInputChange('shareholderNumber', e.target.value)}
-                                  sx={{ mb: 2 }}
+                                  variant="outlined"
+                                  sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                      borderRadius: 3,
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                                      '&:hover': {
+                                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                                      },
+                                      '&.Mui-focused': {
+                                        border: '2px solid #6366f1',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                      },
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                      color: '#cbd5e1',
+                                      '&.Mui-focused': {
+                                        color: '#6366f1',
+                                      },
+                                    },
+                                  }}
                                 />
                               </Grid>
                               <Grid item xs={12} sm={6}>
@@ -734,16 +833,52 @@ export default function DashboardPage() {
                                   label="Company Name"
                                   value={formData.companyName}
                                   onChange={(e) => handleInputChange('companyName', e.target.value)}
-                                  sx={{ mb: 2 }}
+                                  variant="outlined"
+                                  sx={{ 
+                                    mb: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                      borderRadius: 3,
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                                      '&:hover': {
+                                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                                      },
+                                      '&.Mui-focused': {
+                                        border: '2px solid #6366f1',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                      },
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                      color: '#cbd5e1',
+                                      '&.Mui-focused': {
+                                        color: '#6366f1',
+                                      },
+                                    },
+                                  }}
                                 />
                               </Grid>
                               <Grid item xs={12}>
                                 <FormControl fullWidth sx={{ mb: 2 }}>
-                                  <InputLabel>Company Type</InputLabel>
+                                  <InputLabel sx={{ color: '#cbd5e1' }}>Company Type</InputLabel>
                                   <Select
                                     value={formData.companyTypeDropdown}
                                     onChange={(e) => handleInputChange('companyTypeDropdown', e.target.value)}
                                     label="Company Type"
+                                    sx={{
+                                      borderRadius: 3,
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                                      '&:hover': {
+                                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                                      },
+                                      '&.Mui-focused': {
+                                        border: '2px solid #6366f1',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                      },
+                                      '& .MuiOutlinedInput-notchedOutline': {
+                                        border: 'none',
+                                      },
+                                    }}
                                   >
                                     {companyTypeOptions.map((option) => (
                                       <SelectMenuItem key={option} value={option}>
@@ -764,6 +899,17 @@ export default function DashboardPage() {
                                       component="label"
                                       startIcon={<CloudUploadIcon />}
                                       fullWidth
+                                      sx={{
+                                        borderRadius: 3,
+                                        border: '2px dashed rgba(99, 102, 241, 0.3)',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                        color: '#6366f1',
+                                        py: 2,
+                                        '&:hover': {
+                                          border: '2px dashed #6366f1',
+                                          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                        },
+                                      }}
                                     >
                                       Company Documents
                                       <input
@@ -784,6 +930,17 @@ export default function DashboardPage() {
                                       component="label"
                                       startIcon={<CloudUploadIcon />}
                                       fullWidth
+                                      sx={{
+                                        borderRadius: 3,
+                                        border: '2px dashed rgba(99, 102, 241, 0.3)',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                        color: '#6366f1',
+                                        py: 2,
+                                        '&:hover': {
+                                          border: '2px dashed #6366f1',
+                                          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                        },
+                                      }}
                                     >
                                       CNIC Image
                                       <input
@@ -804,6 +961,17 @@ export default function DashboardPage() {
                                       component="label"
                                       startIcon={<CloudUploadIcon />}
                                       fullWidth
+                                      sx={{
+                                        borderRadius: 3,
+                                        border: '2px dashed rgba(99, 102, 241, 0.3)',
+                                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                                        color: '#6366f1',
+                                        py: 2,
+                                        '&:hover': {
+                                          border: '2px dashed #6366f1',
+                                          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                        },
+                                      }}
                                     >
                                       Passport Image
                                       <input
@@ -829,7 +997,23 @@ export default function DashboardPage() {
                           <Button
                             disabled={activeStep === 0}
                             onClick={handleBack}
-                            sx={{ mr: 1 }}
+                            variant="outlined"
+                            sx={{ 
+                              mr: 1,
+                              borderRadius: 3,
+                              px: 4,
+                              py: 1.5,
+                              border: '1px solid rgba(99, 102, 241, 0.3)',
+                              color: '#6366f1',
+                              '&:hover': {
+                                border: '1px solid #6366f1',
+                                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              },
+                              '&:disabled': {
+                                border: '1px solid #334155',
+                                color: '#64748b',
+                              },
+                            }}
                           >
                             Back
                           </Button>
@@ -840,11 +1024,36 @@ export default function DashboardPage() {
                                 onClick={handleSubmit}
                                 disabled={loading}
                                 startIcon={loading ? <CircularProgress size={20} /> : null}
+                                sx={{
+                                  borderRadius: 3,
+                                  px: 4,
+                                  py: 1.5,
+                                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                                  '&:hover': {
+                                    background: 'linear-gradient(135deg, #4f46e5 0%, #db2777 100%)',
+                                  },
+                                  '&:disabled': {
+                                    background: '#334155',
+                                    color: '#64748b',
+                                  },
+                                }}
                               >
                                 {loading ? 'Submitting...' : 'Submit'}
                               </Button>
                             ) : (
-                              <Button variant="contained" onClick={handleNext}>
+                              <Button 
+                                variant="contained" 
+                                onClick={handleNext}
+                                sx={{
+                                  borderRadius: 3,
+                                  px: 4,
+                                  py: 1.5,
+                                  background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                                  '&:hover': {
+                                    background: 'linear-gradient(135deg, #4f46e5 0%, #db2777 100%)',
+                                  },
+                                }}
+                              >
                                 Next
                               </Button>
                             )}
