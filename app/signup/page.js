@@ -141,8 +141,22 @@ export default function SignupPage() {
       const data = await response.json();
 
       if (data.success) {
+        // Store auth data
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          password: '',
+          confirmPassword: '',
+        });
+        setAgreedToTerms(false);
+        
+        // Redirect to dashboard
         router.push('/dashboard');
       } else {
         setError(data.error || 'Signup failed');
